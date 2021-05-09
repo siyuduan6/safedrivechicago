@@ -37,22 +37,21 @@ def icon_adder(df, color, shape, info):
     labels = list(info)
     incidents = folium.map.FeatureGroup(opacity=0.5)
     for la, lo, label in zip(r_la, r_lo, labels):
-        folium.Marker([la, lo],popup =label,icon=folium.Icon(color = color, icon = shape), tooltip="Show me").add_to(chi_map)
+        folium.Marker([la, lo],popup =label,icon=folium.Icon(color = color, icon = shape), tooltip="Show me").add_to(incidents)
     chi_map.add_child(incidents)
 
     return folium_static(chi_map)
 
 def icon_adder_re(map1, df2, color2, shape2, info2):
-    chi_map2 = map1
     r_la = list(df2["LATITUDE"])
     r_lo = list(df2["LONGITUDE"])
     labels = list(info2)
     incidents = folium.map.FeatureGroup(opacity=0.5)
     for la, lo, label in zip(r_la, r_lo, labels):
-        folium.Marker([la, lo],popup =label,icon=folium.Icon(color = color2, icon = shape2), tooltip="Show me").add_to(chi_map2)
-    chi_map2.add_child(incidents)
+        folium.Marker([la, lo],popup =label,icon=folium.Icon(color = color2, icon = shape2), tooltip="Show me").add_to(incidents)
+    map1.add_child(incidents)
 
-    return folium_static(chi_map2)
+    return folium_static(map1)
     
 
 def point_adder(df, info):
