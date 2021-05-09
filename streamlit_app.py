@@ -21,7 +21,6 @@ def doc(f):
     file_list = [rl_vio, rl_vio1, rl_vio2, rl_lo, s_loc, r_la, r_lo]
     return file_list[f]
 
-@st.cache
 def icon_adder(df, color, shape, info):
     latitude = 41.8781
     longitude = -87.6298
@@ -50,7 +49,6 @@ def point_adder(df, info):
 
     return folium_static(chi_map1)
 
-@st.cache
 def year_pick():
     rl_vio = doc(0)
     crash = rl_vio[rl_vio["YEAR"] > 2015].groupby("YEAR")
@@ -67,7 +65,7 @@ def year_pick():
         file = file_list[index][1].dropna(subset=["LOCATION"])
         return point_adder(file, file["LOCATION"])
 
-@st.cache
+
 def vio_year():
     rl_vio1 = doc(1)
     rl_vio2 = doc(2)
@@ -88,7 +86,7 @@ def vio_year():
     plt.xticks(rotation=45)
     return fig
 
-@st.cache
+
 def stack_bar_chart():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
@@ -127,7 +125,7 @@ def stack_bar_chart():
                 (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.datum.YEAR == select2)&
                 (alt.FieldOneOfPredicate(field='MONTH', oneOf=select3))
             )
-@st.cache
+
 def summary():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
@@ -183,7 +181,6 @@ def summary():
 
 
 
-@st.cache
 def int_vega():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
