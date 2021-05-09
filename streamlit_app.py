@@ -33,7 +33,7 @@ def icon_adder(df, color, shape, info):
         folium.Marker([la, lo],popup =label,icon=folium.Icon(color = color, icon = shape), tooltip="Show me").add_to(chi_map)
     chi_map.add_child(incidents)
 
-    return folium_static(chi_map)
+    return chi_map
 
 def point_adder(df, info):
     latitude = 41.8781
@@ -47,7 +47,7 @@ def point_adder(df, info):
         folium.Marker([la, lo],popup =label,icon=None, tooltip="Show me").add_to(incidents)
     chi_map1.add_child(incidents)
 
-    return folium_static(chi_map1)
+    return chi_map1
 
 def year_pick():
     rl_vio = doc(0)
@@ -107,8 +107,8 @@ def stack_bar_chart():
     ).interactive()
 
     select1 = st.sidebar.selectbox("Choose the crash type: ",crash_type)
-    select2 = st.sidebar.selectbox("Choose the year: ",source["YEAR"].unique())
-    select3 = st.sidebar.multiselect("Choose the month:",source["MONTH"].unique())
+    select2 = st.sidebar.selectbox("Choose the year: ",source["YEAR"].astype("int").unique())
+    select3 = st.sidebar.multiselect("Choose the month:",source["MONTH"].astype("int").unique())
     if select1 in crash_type:
         cha = alt.Chart(source).mark_bar().encode(
             y='YEAR',
