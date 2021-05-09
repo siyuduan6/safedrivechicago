@@ -163,6 +163,7 @@ def summary():
     )
 
     speed = alt.Chart(source2).mark_bar(size=20).encode(
+        alt.Tooltip(["YEAR:O", "MONTH:O", "sum(VIOLATIONS):Q"]),
         alt.X('MONTH', axis=alt.Axis(grid=False)),
         alt.Y('sum(VIOLATIONS):Q', title="Speed Violation Number", axis=alt.Axis(grid=False)),
         color=color
@@ -173,10 +174,14 @@ def summary():
     ).add_selection(
         selection
     )
-    sum = alt.hconcat(
+    vio = alt.hconcat(
         rl,
         speed, legend,
         title="Red Light Violations and Speed Violations"
+    )
+    sum = alt.vconcat(
+        cha,
+        vio
     )
     return sum
 
