@@ -134,8 +134,8 @@ def summary():
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size = 20).encode(
-        alt.X('YEAR', grid = False),
-        alt.Y('count(CRASH_RECORD_ID)', grid =False),
+        alt.X('YEAR', alt.Axis(grid = False)),
+        alt.Y('count(CRASH_RECORD_ID)', alt.Axis(grid =False)),
         row="PRIM_CONTRIBUTORY_CAUSE",
         column="DAMAGE"
     ).transform_filter(
