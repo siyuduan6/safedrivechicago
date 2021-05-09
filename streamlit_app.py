@@ -51,7 +51,7 @@ def point_adder(df, info):
 
 def year_pick():
     rl_vio = doc(0)
-    crash = rl_vio[rl_vio["YEAR"] > 2015].groupby("YEAR")
+    crash = rl_vio[rl_vio["YEAR"] > 2015]
     year_list = [2016, 2017, 2018, 2019, 2020, 2021]
     options = st.multiselect('Year',year_list)
     if options in year_list:
