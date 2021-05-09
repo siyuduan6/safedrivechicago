@@ -111,20 +111,21 @@ def stack_bar_chart():
     select3 = st.sidebar.multiselect("Choose the month:",source["MONTH"].unique(),
                                   value=source["MONTH"])
     if select1 in crash_type:
-        alt.Chart(source).mark_bar().encode(
+        cha = alt.Chart(source).mark_bar().encode(
             y='YEAR',
             x='count(CRASH_RECORD_ID)'
             ).transform_filter(
             alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1
         )
         if select2:
-            alt.Chart(source).mark_bar().encode(
+            cha = alt.Chart(source).mark_bar().encode(
                 y='MONTH',
                 x='count(CRASH_RECORD_ID)'
             ).transform_filter(
                 (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.datum.YEAR == select2)&
                 (alt.FieldOneOfPredicate(field='MONTH', oneOf=select3))
             )
+    return cha
 
 def summary():
     rl_vio = doc(0)
@@ -172,11 +173,12 @@ def summary():
     ).add_selection(
         selection
     )
-    alt.hconcat(
+    sum = alt.hconcat(
         rl,
         speed, legend,
         title="Red Light Violations and Speed Violations"
     )
+    return sum
 
 
 
@@ -248,12 +250,12 @@ def int_vega():
     ).add_selection(
         click
     )
-    alt.hconcat(
+    vega = alt.hconcat(
         points,
         lines,
         title="Cases VS Injured"
     )
-
+    return vega
 
 if __name__ == '__main__':
     st.title(" Welcome to Drive Safe in Chicago")
