@@ -47,24 +47,18 @@ def point_adder(df, info):
     for la, lo, label in zip(r_la, r_lo, labels):
         folium.Marker([la, lo],popup =label,icon=None, tooltip="Show me").add_to(incidents)
     chi_map1.add_child(incidents)
-
     return folium_static(chi_map1)
 
 def year_pick():
     rl_vio = doc(0)
     crash = rl_vio[rl_vio["YEAR"] > 2015].groupby("YEAR")
-    crash1, crash2, crash3, crash4, crash5, crash6 = [(x, crash.get_group(x)) for x in crash.groups]
     year_list = [2016, 2017, 2018, 2019, 2020, 2021]
-    file_list = [crash1, crash2, crash3, crash4, crash5, crash6]
     options = st.multiselect('Year',year_list)
     if options in year_list:
-        index = year_list.index(options)
-        file = file_list[index][1].dropna(subset=["LOCATION"])
-        return point_adder(file, file["LOCATION"])
+        file = crash[crash["YEAR"]==options].dropna(subset=["LOCATION"])
     else:
-        index = 5
-        file = file_list[index][1].dropna(subset=["LOCATION"])
-        return point_adder(file, file["LOCATION"])
+        file = crash[crash["YEAR"]==2020].dropna(subset=["LOCATION"])
+    return point_adder(file, file["LOCATION"])
 
 
 def vio_year():
@@ -264,6 +258,21 @@ def int_vega():
     return vega
 
 if __name__ == '__main__':
+    rl = doc(3)
+    s = doc(4)
+    st.text(" Car Crash Accidents in Chicago ")
+    crash = year_pick()
+    sc = st.sidebar.checkbox("See the speed camera location?", False)
+    rlc = st.sidebar.checkbox("See the red light camera location?", False)
+    if sc:
+        time.sleep(5)
+        chi_map_v = icon_adder(s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
+        st.write(chi_map_v)
+    if rlc:
+        time.sleep(5)
+        chi_map_rl = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
+        st.write(chi_map_rl)
+    st.write(crash)
     st.title(" Welcome to Drive Safe in Chicago")
     st.header("*Summary*")
     st.write(summary())
@@ -274,19 +283,4 @@ if __name__ == '__main__':
     st.write(stack_bar_chart())
     st.text("Crashes and Injures in the same period")
     st.write(int_vega())
-    rl = doc(3)
-    s = doc(4)
-    chi_map_rl = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
-    chi_map_v = icon_adder(s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
-    st.text(" Car Crash Accidents in Chicago ")
-    crash = year_pick()
-    sc = st.sidebar.checkbox("See the speed camera location?", False)
-    rlc = st.sidebar.checkbox("See the red light camera location?", False)
-    if sc:
-        time.sleep(5)
-        st.write(chi_map_v)
-    if rlc:
-        time.sleep(5)
-        st.write(chi_map_rl)
 
-    st.write(crash)
