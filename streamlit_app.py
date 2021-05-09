@@ -133,16 +133,15 @@ def summary():
                   "FAILING TO YIELD RIGHT-OF-WAY",
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
-    cha = alt.Chart(source).mark_bar().encode(
+    cha = alt.Chart(source).mark_bar(size = 20).encode(
         alt.X('YEAR'),
         alt.Y('count(CRASH_RECORD_ID)'),
         row="PRIM_CONTRIBUTORY_CAUSE",
-        column="DAMAGE"
+        column="DAMAGE", color = "#6495ED"
     ).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
 
-    st.text("Summary of Violatons")
     alt.data_transformers.enable('default', max_rows=None)
     source1 = doc(1)
     source2 = doc(2)
@@ -176,11 +175,12 @@ def summary():
     vio = alt.hconcat(
         rl,
         speed, legend,
-        title="Red Light Violations and Speed Violations"
+        title="Summary of Violations: Red Light Violations and Speed Violations"
     )
     sum = alt.vconcat(
         cha,
-        vio
+        vio,
+        title="Summary of Car Crash Accidents"
     )
     return sum
 
@@ -263,7 +263,7 @@ def int_vega():
 
 if __name__ == '__main__':
     st.title(" Welcome to Drive Safe in Chicago")
-    st.header("Summary of Car Crashes")
+    st.header("*Summary*")
     st.write(summary())
     st.text("Violation Cases in Chicago Per Month")
     vio = vio_year()
