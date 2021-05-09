@@ -9,9 +9,6 @@ import pydeck as deck
 import time
 from streamlit_folium import folium_static
 
-
-"# streamlit-folium"
-
 def doc(f):
     rl_vio = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/19de7046dbc21673b8f927bb24ad1195/raw/655a655c5068d349e9fccb8a2abd54b59c6073af/crashes.csv")
     rl_vio1 = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/4e46bffd955eb7d0fad85d03a7b25729/raw/4071e08a6521225856ac4ee837e71b1eb88ef7c1/red_light_violation.csv")
@@ -110,8 +107,8 @@ def stack_bar_chart():
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
 
-    select1 = st.sidebar.selectbox("Choose the crash type: ",crash_type)
-    select2 = st.sidebar.selectbox("Choose the year: ",source["YEAR"].astype("int").unique())
+    select1 = st.sidebar.multiselect("Choose the crash type: ",crash_type)
+    select2 = st.sidebar.multiselect("Choose the year: ",source["YEAR"].astype("int").unique())
     select3 = st.sidebar.multiselect("Choose the month:",source["MONTH"].astype("int").unique())
     if select1 in crash_type:
         cha = alt.Chart(source).mark_bar().encode(
