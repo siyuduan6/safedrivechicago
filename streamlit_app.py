@@ -10,22 +10,21 @@ import time
 
 
 st.text(" Welcome to Drive Safe in Chicago")
-rl_vio = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/4a84c17af99103f5b5d91a538804c328/raw/47ff26d3cae44b06fe124357ef68db8b0fb5996a/crashes.csv")
-rl_vio1 = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/4e46bffd955eb7d0fad85d03a7b25729/raw/4071e08a6521225856ac4ee837e71b1eb88ef7c1/red_light_violation.csv")
-rl_vio2 = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/0af6a745ce42054d6e14627a54e91301/raw/5f1003274760cfa0abfaf76af9971e5102bd3cbf/Speed_Camera_Violations.csv")
-rl_lo = pd.read_csv("https://data.cityofchicago.org/api/views/7mgr-iety/rows.csv?accessType=DOWNLOAD")
-s_loc =pd.read_csv("https://data.cityofchicago.org/api/views/4i42-qv3h/rows.csv?accessType=DOWNLOAD")
-s_loc["ADDRESS"] = s_loc["ADDRESS"].str.split("(",expand=True).iloc[:,0]
-r_la = list(rl_lo["LATITUDE"])
-r_lo = list(rl_lo["LONGITUDE"])
-
-
-latitude = 41.8781
-longitude = -87.6298
-
-
+def doc(f):
+    rl_vio = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/4a84c17af99103f5b5d91a538804c328/raw/47ff26d3cae44b06fe124357ef68db8b0fb5996a/crashes.csv")
+    rl_vio1 = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/4e46bffd955eb7d0fad85d03a7b25729/raw/4071e08a6521225856ac4ee837e71b1eb88ef7c1/red_light_violation.csv")
+    rl_vio2 = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/0af6a745ce42054d6e14627a54e91301/raw/5f1003274760cfa0abfaf76af9971e5102bd3cbf/Speed_Camera_Violations.csv")
+    rl_lo = pd.read_csv("https://data.cityofchicago.org/api/views/7mgr-iety/rows.csv?accessType=DOWNLOAD")
+    s_loc =pd.read_csv("https://data.cityofchicago.org/api/views/4i42-qv3h/rows.csv?accessType=DOWNLOAD")
+    s_loc["ADDRESS"] = s_loc["ADDRESS"].str.split("(",expand=True).iloc[:,0]
+    r_la = list(rl_lo["LATITUDE"])
+    r_lo = list(rl_lo["LONGITUDE"])
+    file_list = [rl_vio, rl_vio1, rl_vio2, rl_lo, s_loc, r_la, r_lo]
+    return file_list[f]
 
 def icon_adder(df, color, shape, info):
+    latitude = 41.8781
+    longitude = -87.6298
     chi_map = folium.Map(location=[latitude, longitude], zoom_start=12, tiles='OpenStreetMap')
     r_la = list(df["LATITUDE"])
     r_lo = list(df["LONGITUDE"])
@@ -38,6 +37,8 @@ def icon_adder(df, color, shape, info):
     return folium_static(chi_map)
 
 def point_adder(df, info):
+    latitude = 41.8781
+    longitude = -87.6298
     chi_map1 = folium.Map(location=[latitude, longitude], zoom_start=12,tiles='OpenStreetMap')
     r_la = list(df["LATITUDE"])
     r_lo = list(df["LONGITUDE"])
@@ -51,6 +52,7 @@ def point_adder(df, info):
 
 def year_pick():
     st.text(" Car Crash Accident in Chicago ")
+    rl_vio = doc[0]
     crash = rl_vio[rl_vio["YEAR"] > 2015].groupby("YEAR")
     crash1, crash2, crash3, crash4, crash5, crash6 = [(x, crash.get_group(x)) for x in crash.groups]
     year_list = [2016, 2017, 2018, 2019, 2020, 2021]
@@ -68,6 +70,8 @@ def year_pick():
 @st.cache
 def vio_year():
     st.text("Violation Cases in Chicago Per Month")
+    rl_vio1 = doc[1]
+    rl_vio2 = doc[2]
     year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020], value=2020)
     vio1 = rl_vio1[rl_vio1["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
@@ -88,6 +92,7 @@ def vio_year():
 @st.cache
 def stack_bar_chart():
     st.text("Top 5 Causes of Car Crash Accident")
+    rl_vio = doc[0]
     source = rl_vio[rl_vio["YEAR"] > 2015]
     crash_type = ["FAILING TO REDUCE SPEED TO AVOID CRASH",
                   "FAILING TO YIELD RIGHT-OF-WAY",
@@ -127,6 +132,7 @@ def stack_bar_chart():
 @st.cache
 def summary():
     st.text("Summary of Car Crashes")
+    rl_vio = doc[0]
     source = rl_vio[rl_vio["YEAR"] > 2015]
     crash_type = ["FAILING TO REDUCE SPEED TO AVOID CRASH",
                   "FAILING TO YIELD RIGHT-OF-WAY",
@@ -143,8 +149,8 @@ def summary():
 
     st.text("Summary of Violatons")
     alt.data_transformers.enable('default', max_rows=None)
-    source1 = rl_vio1
-    source2 = rl_vio2
+    source1 = doc[1]
+    source2 = doc[2]
     selection = alt.selection_interval()
 
     scale = alt.Scale(domain=[2015, 2016, 2017, 2018, 2019, 2020],
@@ -183,6 +189,7 @@ def summary():
 @st.cache
 def int_vega():
     st.text("Crashes and Injures in the same period")
+    rl_vio = doc[0]
     source = rl_vio[rl_vio["YEAR"] > 2015]
     source2 = source.dropna(subset=["INJURIES_TOTAL"])
     scale = alt.Scale(domain=[2016, 2017, 2018, 2019, 2020, 2021],
@@ -261,8 +268,10 @@ if __name__ == '__main__':
     st.write(vio)
     st.write(stack_bar_chart())
     st.write(int_vega())
-    chi_map_rl = icon_adder(rl_lo,"red","info-sign", rl_lo["INTERSECTION"])
-    chi_map_v = icon_adder(s_loc,"blue","glyphicon glyphicon-warning-sign",s_loc["ADDRESS"])
+    rl = doc[3]
+    s = doc[4]
+    chi_map_rl = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
+    chi_map_v = icon_adder(s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
     crash = year_pick()
     sc = st.sidebar.checkbox("See the speed camera location?", False)
     rlc = st.sidebar.checkbox("See the red light camera location?", False)
