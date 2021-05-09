@@ -284,9 +284,9 @@ if __name__ == '__main__':
     rlc = st.sidebar.checkbox("Want to see the red light camera location?", True)
     if rlc and not sc:
         chi_m = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
-    else if sc and not rlc:
+    elif sc and not rlc:
         chi_m = icon_adder(s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
-    else if sc and rlc:
+    elif sc and rlc:
         chi_rl = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
         chi_m = icon_adder_re(chi_rl, s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
     else:
