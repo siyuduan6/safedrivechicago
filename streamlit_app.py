@@ -108,8 +108,7 @@ def stack_bar_chart():
 
     select1 = st.sidebar.selectbox("Choose the crash type: ",crash_type)
     select2 = st.sidebar.selectbox("Choose the year: ",source["YEAR"].unique())
-    select3 = st.sidebar.multiselect("Choose the month:",source["MONTH"].unique(),
-                                  value=source["MONTH"])
+    select3 = st.sidebar.multiselect("Choose the month:",source["MONTH"].unique())
     if select1 in crash_type:
         cha = alt.Chart(source).mark_bar().encode(
             y='YEAR',
