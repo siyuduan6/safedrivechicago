@@ -53,11 +53,10 @@ def year_pick():
     rl_vio = doc(0)
     crash = rl_vio[rl_vio["YEAR"] > 2015]
     year_list = [2016, 2017, 2018, 2019, 2020, 2021]
-    options = st.multiselect('Year',year_list)
-    if options in year_list:
+    file = crash[crash["YEAR"]==2020].dropna(subset=["LOCATION"])
+    options = st.sidebar.multiselect('View Car Crash by Year',year_list)
+    if options:
         file = crash[crash["YEAR"]==options].dropna(subset=["LOCATION"])
-    else:
-        file = crash[crash["YEAR"]==2020].dropna(subset=["LOCATION"])
     return point_adder(file, file["LOCATION"])
 
 
@@ -258,12 +257,9 @@ def int_vega():
     return vega
 
 if __name__ == '__main__':
-    rl = doc(3)
-    s = doc(4)
-    st.text(" Car Crash Accidents in Chicago ")
-    crash = year_pick()
-    sc = st.sidebar.checkbox("See the speed camera location?", False)
-    rlc = st.sidebar.checkbox("See the red light camera location?", False)
+    st.title(" Welcome to Drive Safe in Chicago")
+    sc = st.sidebar.checkbox("Want to see the speed camera location?", False)
+    rlc = st.sidebar.checkbox("Want to see the red light camera location?", False)
     if sc:
         time.sleep(1)
         chi_map_v = icon_adder(s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
@@ -272,8 +268,10 @@ if __name__ == '__main__':
         time.sleep(1)
         chi_map_rl = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
         st.write(chi_map_rl)
-    st.write(crash)
-    st.title(" Welcome to Drive Safe in Chicago")
+    rl = doc(3)
+    s = doc(4)
+    st.header(" Car Crash Accidents in Chicago ")
+    st.write(year_pick())
     st.header("*Summary*")
     st.write(summary())
     st.text("Violation Cases in Chicago Per Month")
