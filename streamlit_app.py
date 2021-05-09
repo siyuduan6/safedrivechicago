@@ -11,7 +11,7 @@ import time
 def doc(f):
     rl_vio = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/19de7046dbc21673b8f927bb24ad1195/raw/655a655c5068d349e9fccb8a2abd54b59c6073af/crashes.csv")
     rl_vio1 = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/4e46bffd955eb7d0fad85d03a7b25729/raw/4071e08a6521225856ac4ee837e71b1eb88ef7c1/red_light_violation.csv")
-    rl_vio2 = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/29203a998eda61848c67335d22846219/raw/557ceedb4d008752a3113a9455d4c525a1663920/Speed_Camera_Violations.csv")
+    rl_vio2 = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/29203a998eda61848c67335d22846219/raw/557ceedb4d008752a3113a9455d4c525a1663920/Speed_Camera_Violations.csv", engine="python")
     rl_lo = pd.read_csv("https://data.cityofchicago.org/api/views/7mgr-iety/rows.csv?accessType=DOWNLOAD")
     s_loc =pd.read_csv("https://data.cityofchicago.org/api/views/4i42-qv3h/rows.csv?accessType=DOWNLOAD")
     s_loc["ADDRESS"] = s_loc["ADDRESS"].str.split("(",expand=True).iloc[:,0]
