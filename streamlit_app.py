@@ -134,10 +134,10 @@ def summary():
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size = 20).encode(
-        alt.X('YEAR'),
-        alt.Y('count(CRASH_RECORD_ID)'),
+        alt.X('YEAR', grid = False),
+        alt.Y('count(CRASH_RECORD_ID)', grid =False),
         row="PRIM_CONTRIBUTORY_CAUSE",
-        column="DAMAGE", color = "#6495ED"
+        column="DAMAGE"
     ).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
@@ -195,6 +195,7 @@ def int_vega():
                       range=["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
     color = alt.Color('YEAR:O', scale=scale)
     click = alt.selection_multi(encodings=['color'])
+    brush = alt.selection_interval()
 
     # Top panel is scatter plot of temperature vs time
     points = alt.Chart(source).mark_point().encode(
