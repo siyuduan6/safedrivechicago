@@ -7,6 +7,10 @@ import folium
 import altair as alt
 import pydeck as deck
 import time
+from streamlit_folium import folium_static
+
+
+"# streamlit-folium"
 
 def doc(f):
     rl_vio = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/19de7046dbc21673b8f927bb24ad1195/raw/655a655c5068d349e9fccb8a2abd54b59c6073af/crashes.csv")
@@ -33,7 +37,7 @@ def icon_adder(df, color, shape, info):
         folium.Marker([la, lo],popup =label,icon=folium.Icon(color = color, icon = shape), tooltip="Show me").add_to(chi_map)
     chi_map.add_child(incidents)
 
-    return chi_map
+    return folium_static(chi_map)
 
 def point_adder(df, info):
     latitude = 41.8781
@@ -47,7 +51,7 @@ def point_adder(df, info):
         folium.Marker([la, lo],popup =label,icon=None, tooltip="Show me").add_to(incidents)
     chi_map1.add_child(incidents)
 
-    return chi_map1
+    return folium_static(chi_map1)
 
 def year_pick():
     rl_vio = doc(0)
