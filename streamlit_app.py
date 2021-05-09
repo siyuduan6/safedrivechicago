@@ -9,7 +9,7 @@ import pydeck as deck
 import time
 
 def doc(f):
-    rl_vio = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/4a84c17af99103f5b5d91a538804c328/raw/47ff26d3cae44b06fe124357ef68db8b0fb5996a/crashes.csv")
+    rl_vio = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/19de7046dbc21673b8f927bb24ad1195/raw/655a655c5068d349e9fccb8a2abd54b59c6073af/crashes.csv")
     rl_vio1 = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/4e46bffd955eb7d0fad85d03a7b25729/raw/4071e08a6521225856ac4ee837e71b1eb88ef7c1/red_light_violation.csv")
     rl_vio2 = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/0af6a745ce42054d6e14627a54e91301/raw/5f1003274760cfa0abfaf76af9971e5102bd3cbf/Speed_Camera_Violations.csv")
     rl_lo = pd.read_csv("https://data.cityofchicago.org/api/views/7mgr-iety/rows.csv?accessType=DOWNLOAD")
