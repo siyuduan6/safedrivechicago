@@ -265,11 +265,11 @@ if __name__ == '__main__':
     sc = st.sidebar.checkbox("See the speed camera location?", False)
     rlc = st.sidebar.checkbox("See the red light camera location?", False)
     if sc:
-        time.sleep(5)
+        time.sleep(1)
         chi_map_v = icon_adder(s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
         st.write(chi_map_v)
     if rlc:
-        time.sleep(5)
+        time.sleep(1)
         chi_map_rl = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
         st.write(chi_map_rl)
     st.write(crash)
