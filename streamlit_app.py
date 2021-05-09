@@ -258,7 +258,9 @@ def int_vega():
 
 if __name__ == '__main__':
     st.title(" Welcome to Drive Safe in Chicago")
-    sc = st.sidebar.checkbox("Want to see the speed camera location?", False)
+    rl = doc(3)
+    s = doc(4)
+    sc = st.sidebar.checkbox("Want to see the speed camera location?", True)
     rlc = st.sidebar.checkbox("Want to see the red light camera location?", False)
     if sc:
         time.sleep(1)
@@ -268,8 +270,7 @@ if __name__ == '__main__':
         time.sleep(1)
         chi_map_rl = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
         st.write(chi_map_rl)
-    rl = doc(3)
-    s = doc(4)
+
     st.header(" Car Crash Accidents in Chicago ")
     st.write(year_pick())
     st.header("*Summary*")
