@@ -26,21 +26,9 @@ def chicago_map():
     latitude = 41.8781
     longitude = -87.6298
     chi_m = folium.Map(location=[latitude, longitude], zoom_start=12, tiles='OpenStreetMap')
-    return folium_static(chi_m)
+    return chi_m
 
 def icon_adder(df, color, shape, info):
-    latitude = 41.8781
-    longitude = -87.6298
-    chi_map = folium.Map(location=[latitude, longitude], zoom_start=12, tiles='OpenStreetMap')
-    r_la = list(df["LATITUDE"])
-    r_lo = list(df["LONGITUDE"])
-    labels = list(info)
-    incidents = folium.map.FeatureGroup(opacity=0.5)
-    for la, lo, label in zip(r_la, r_lo, labels):
-        folium.Marker([la, lo],popup =label,icon=folium.Icon(color = color, icon = shape), tooltip="Show me").add_to(chi_map)
-    return folium_static(chi_map)
-
-def icon_adder_map(df, color, shape, info):
     latitude = 41.8781
     longitude = -87.6298
     chi_map = folium.Map(location=[latitude, longitude], zoom_start=12, tiles='OpenStreetMap')
@@ -60,7 +48,7 @@ def icon_adder_re(map1, df2, color2, shape2, info2):
     for la, lo, label in zip(r_la, r_lo, labels):
         folium.Marker([la, lo],popup =label,icon=folium.Icon(color = color2, icon = shape2), tooltip="Show me").add_to(map1)
 
-    return folium_static(map1)
+    return map1
     
 
 def point_adder(df, info):
@@ -295,11 +283,11 @@ if __name__ == '__main__':
     elif sc and not rlc:
         chi_m = icon_adder(s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
     elif sc and rlc:
-        chi_rl = icon_adder_map(rl,"red","info-sign", rl["INTERSECTION"])
+        chi_rl = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
         chi_m = icon_adder_re(chi_rl, s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
     else:
         chi_m = chicago_map()  
-    st.write(chi_m)
+    folium_static(chi_m)
     st.header("*Summary*")
     st.write(summary())
     st.text("Violation Cases in Chicago Per Month")
