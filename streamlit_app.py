@@ -138,7 +138,7 @@ def stack_bar_chart():
             alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
             color=alt.value("#e7ba52")
         ).properties(
-            width=1000
+            width=600
         ).transform_filter(
             alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1
         )
@@ -149,7 +149,7 @@ def stack_bar_chart():
                 alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
                 color=alt.Value("#c7c7c7")
             ).properties(
-                width=1000).transform_filter(
+                width=600).transform_filter(
                 (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)))
 
             if select3:
@@ -159,7 +159,7 @@ def stack_bar_chart():
                     alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
                     color=alt.Value("#659CCA")
                 ).properties(
-                    width=1000).transform_filter(
+                    width=600).transform_filter(
                     (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (
                         alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)) &
                     (alt.FieldOneOfPredicate(field='MONTH', oneOf=select3))
@@ -180,7 +180,7 @@ def summary():
         row="PRIM_CONTRIBUTORY_CAUSE",
         column="DAMAGE"
     ).properties(
-        width=300
+        width=200
     ).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
@@ -193,10 +193,8 @@ def summary():
 
 def summary_rl():
     alt.data_transformers.enable('default', max_rows=None)
-    source1 = doc(1)
-    source2 = doc(2)
-    source1.dropna(subset=["MONTH"])
-    source2.dropna(subset=["MONTH"])             
+    source1 = doc(1).dropna(subset=["MONTH"]
+    source2 = doc(2).dropna(subset=["MONTH"]         
     selection = alt.selection_interval()
     scale = alt.Scale(domain=[2015, 2016, 2017, 2018, 2019, 2020],
                       range=["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
@@ -267,7 +265,7 @@ def int_vega():
         size=alt.SizeValue(75)
 
     ).properties(
-        width=500,
+        width=300,
         height=300,
     ).add_selection(
         brush
@@ -311,13 +309,13 @@ def int_vega():
 
 if __name__ == '__main__':
     st.title(" Welcome to Drive Safe in Chicago")
-    st.text("When you are on the road, drive safe is the priority. However, traffic law violations and traffic accidents"
+    st.text("When you are on the road, drive safe is the priority. \nHowever, traffic law violations and traffic accidents"
             "are happening all the time.\nHere, you can get the locations of traffic cameras and the basic statistic of "
-            "red light violations, speed violations and car crash cases in Chicago from 2015 to March 2021. "
-            "\nNot only for displaying numbers, but also for "
+            "red light violations, \nspeed violations and car crash cases in Chicago from 2015 to March 2021. "
+            "\nNot only for displaying numbers, \nbut also for "
             "alarming you to beware of the danger and letting you be aware of the importance to obey traffic rules.\n"
             "Drive Safe!\n"
-            "(The data are from Chicago Data Portal [link](https://data.cityofchicago.org/))")
+    st.write("(The data are from Chicago Data Portal [link](https://data.cityofchicago.org/))")
     st.header(" Locations of Traffic Cameras")
     st.text("Click the markers to view the locations of traffic cameras.")
     rl = doc(3)
@@ -341,12 +339,14 @@ if __name__ == '__main__':
     st.header("*Summary*")
     st.text("Damages and Causes of car accidents by year.")
     st.write(summary())
+    st.text("Choose an interval on the year bar and get the data!")
     st.write(summary_rl())
-    st.text("Top 5 Causes of Car Crash Accident")
+    st.header("Top 5 Causes of Car Crash Accident")
     st.write(stack_bar_chart())
-    st.text("Crashes and Injures in the same period")
+    st.header("Crashes and Injures in the same period")
+    st.text("Try to brush on the "Cases" chart and click on the "Injured" chart to find some relationships between the two!")
     st.write(int_vega())
-    st.text("Violation Cases in Chicago Per Month")
+    st.header("Violation Cases in Chicago Per Month")
     st.text("Slide the slider to view the number of violations in Chicago.")
     vio = vio_year()
     st.write(vio)
