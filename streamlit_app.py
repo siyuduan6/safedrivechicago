@@ -129,7 +129,7 @@ def stack_bar_chart():
                 sort='ascending'
             )).properties(
             height=400,
-            width=800).transform_filter(
+            width=850).transform_filter(
             alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
         ).interactive()
     else:   
@@ -137,7 +137,7 @@ def stack_bar_chart():
             cha = alt.Chart(source).mark_bar(size=20).encode(
                 alt.Tooltip(["PRIM_CONTRIBUTORY_CAUSE:N", "count(CRASH_RECORD_ID):Q"]),
                 alt.Y('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0), title="Year"),
-                alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
+                alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1)),
                 color=alt.value("#e7ba52")
             ).properties(
                 height=400,
@@ -149,7 +149,7 @@ def stack_bar_chart():
                 cha = alt.Chart(source).mark_bar(size=20).encode(
                     alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
                     alt.Y('MONTH:O', axis=alt.Axis(grid=False, labelAngle=0), title="Month"),
-                    alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
+                    alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1)),
                     color=alt.value("darkgray")
                 ).properties(
                     height=400,
