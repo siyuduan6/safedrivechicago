@@ -208,7 +208,7 @@ def summary_rl():
         alt.Y('sum(VIOLATIONS):Q', title="Red Light Violation Number", axis=alt.Axis(grid=False, labelAngle=0)),
         color=color
     ).transform_filter(
-        (alt.FieldOneOfPredicate(field='MONTH', oneOf=[1,2,3,4,5,6,7,8,9,10,11,12]))
+        (alt.FieldOneOfPredicate(field='MONTH:O', oneOf=[1,2,3,4,5,6,7,8,9,10,11,12]))
     )
 
     speed = alt.Chart(source2).mark_bar(size=20).encode(
@@ -217,7 +217,7 @@ def summary_rl():
         alt.Y('sum(VIOLATIONS):Q', title="Speed Violation Number", axis=alt.Axis(grid=False, labelAngle=0)),
         color=color
     ).transform_filter(
-        (alt.FieldOneOfPredicate(field='MONTH', oneOf=[1,2,3,4,5,6,7,8,9,10,11,12]))
+        (alt.FieldOneOfPredicate(field='MONTH:O', oneOf=[1,2,3,4,5,6,7,8,9,10,11,12]))
     )
 
     legend = alt.Chart(source1).mark_rect().encode(
