@@ -314,7 +314,7 @@ if __name__ == '__main__':
             "red light violations, \nspeed violations and car crash cases in Chicago from 2015 to March 2021. "
             "\nNot only for displaying numbers, \nbut also for "
             "alarming you to beware of the danger and letting you be aware of the importance to obey traffic rules.\n"
-            "Drive Safe!\n"
+            "Drive Safe!\n")
     st.write("(The data are from Chicago Data Portal [link](https://data.cityofchicago.org/))")
     st.header(" Locations of Traffic Cameras")
     st.text("Click the markers to view the locations of traffic cameras.")
