@@ -344,7 +344,7 @@ if __name__ == '__main__':
     st.header("Top 5 Causes of Car Crash Accident")
     st.write(stack_bar_chart())
     st.header("Crashes and Injures in the same period")
-    st.text("Try to brush on the "Cases" chart and click on the "Injured" chart to find some relationships between the two!")
+    st.text("Try to brush on the \"Cases\" chart and click on the \"Injured\" chart to find some relationships between the two!")
     st.write(int_vega())
     st.header("Violation Cases in Chicago Per Month")
     st.text("Slide the slider to view the number of violations in Chicago.")
