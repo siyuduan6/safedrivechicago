@@ -122,7 +122,7 @@ def stack_bar_chart():
     select3 = st.sidebar.multiselect("Choose the month:",source["MONTH"].astype("int").unique())
     if select1 in crash_type:
         cha = alt.Chart(source).mark_bar().encode(
-            alt.Tooltip(["YEARPRIM_CONTRIBUTORY_CAUSE", "count(CRASH_RECORD_ID):Q"]),
+            alt.Tooltip(["PRIM_CONTRIBUTORY_CAUSE:N", "count(CRASH_RECORD_ID):Q"]),
             alt.Y('YEAR', axis=alt.Axis(grid = False)),
             alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid = False)),
             ).properties(
@@ -132,6 +132,15 @@ def stack_bar_chart():
         )
         if select2:
             cha = alt.Chart(source).mark_bar().encode(
+                alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
+                alt.Y('MONTH', axis=alt.Axis(grid = False)),
+                alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid = False)),
+            ).properties(
+        width=1000).transform_filter(
+                (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)))
+            )
+            if select3:
+                 cha = alt.Chart(source).mark_bar().encode(
                 alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
                 alt.Y('MONTH', axis=alt.Axis(grid = False)),
                 alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid = False)),
@@ -155,7 +164,7 @@ def summary():
         row="PRIM_CONTRIBUTORY_CAUSE",
         column="DAMAGE"
     ).properties(
-        width = 200
+        width = 300
     ).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
