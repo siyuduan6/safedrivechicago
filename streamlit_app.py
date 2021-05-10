@@ -238,7 +238,7 @@ def int_vega():
     brush = alt.selection_interval()
 
     # Top panel is scatter plot of temperature vs time
-    if st.Button("Show Damage Level"):
+    if st.button("Show Damage Level"):
         points = alt.Chart(source).mark_point().encode(
             alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTALL):Q"]),
             alt.X('MONTH:O', title='Month',
