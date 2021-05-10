@@ -124,7 +124,8 @@ def stack_bar_chart():
             'PRIM_CONTRIBUTORY_CAUSE',
             sort='ascending'
         )).properties(
-        width=1000).transform_filter(
+        height=400,
+        width=600).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
     st.sidebar.title("What causes the accidents?")
@@ -138,6 +139,7 @@ def stack_bar_chart():
             alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
             color=alt.value("#e7ba52")
         ).properties(
+            height=400,
             width=600
         ).transform_filter(
             alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1
@@ -147,8 +149,9 @@ def stack_bar_chart():
                 alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
                 alt.Y('MONTH', axis=alt.Axis(grid=False, labelAngle=0)),
                 alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
-                color=alt.Value("#c7c7c7")
+                color=alt.Value("darkgray")
             ).properties(
+                height=400,
                 width=600).transform_filter(
                 (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)))
 
