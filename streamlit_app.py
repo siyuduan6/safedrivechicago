@@ -195,6 +195,8 @@ def summary_rl():
     alt.data_transformers.enable('default', max_rows=None)
     source1 = doc(1)
     source2 = doc(2)
+    source1.dropna(subset=["MONTH"])
+    source2.dropna(subset=["MONTH"])             
     selection = alt.selection_interval()
     scale = alt.Scale(domain=[2015, 2016, 2017, 2018, 2019, 2020],
                       range=["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
@@ -207,8 +209,6 @@ def summary_rl():
               axis=alt.Axis(grid=False, labelAngle=0)),
         alt.Y('sum(VIOLATIONS):Q', title="Red Light Violation Number", axis=alt.Axis(grid=False, labelAngle=0)),
         color=color
-    ).transform_filter(
-        (alt.FieldOneOfPredicate(field='MONTH:O', oneOf=[1,2,3,4,5,6,7,8,9,10,11,12]))
     )
 
     speed = alt.Chart(source2).mark_bar(size=20).encode(
@@ -216,10 +216,8 @@ def summary_rl():
         alt.X('MONTH:0', axis=alt.Axis(grid=False, labelAngle=0)),
         alt.Y('sum(VIOLATIONS):Q', title="Speed Violation Number", axis=alt.Axis(grid=False, labelAngle=0)),
         color=color
-    ).transform_filter(
-        (alt.FieldOneOfPredicate(field='MONTH:O', oneOf=[1,2,3,4,5,6,7,8,9,10,11,12]))
     )
-
+    
     legend = alt.Chart(source1).mark_rect().encode(
         alt.Y('YEAR:O'),
         color=color
