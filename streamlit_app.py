@@ -105,37 +105,39 @@ def stack_bar_chart():
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size=20).encode(
         alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
-        alt.Y('YEAR'),
-        alt.X('count(CRASH_RECORD_ID)'),
+        alt.Y('YEAR', axis=alt.Axis(grid = False)),
+        alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid = False)),
         color="PRIM_CONTRIBUTORY_CAUSE",
         order=alt.Order(
             # Sort the segments of the bars by this field
             'PRIM_CONTRIBUTORY_CAUSE',
             sort='ascending'
         )).properties(
-        width=800).transform_filter(
+        width=1000).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
 
-    select1 = st.sidebar.multiselect("Choose the crash type: ",crash_type)
+    select1 = st.sidebar.selectbox("Choose the crash type: ",crash_type)
     select2 = st.sidebar.multiselect("Choose the year: ",source["YEAR"].astype("int").unique())
     select3 = st.sidebar.multiselect("Choose the month:",source["MONTH"].astype("int").unique())
     if select1 in crash_type:
         cha = alt.Chart(source).mark_bar().encode(
-            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
-            y='YEAR',
-            x='count(CRASH_RECORD_ID)'
-            ).transform_filter(
+            alt.Tooltip(["YEARPRIM_CONTRIBUTORY_CAUSE", "count(CRASH_RECORD_ID):Q"]),
+            alt.Y('YEAR', axis=alt.Axis(grid = False)),
+            alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid = False)),
+            ).properties(
+        width=1000
+        ).transform_filter(
             alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1
         )
         if select2:
             cha = alt.Chart(source).mark_bar().encode(
                 alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
-                y='MONTH',
-                x='count(CRASH_RECORD_ID)'
+                alt.Y('MONTH', axis=alt.Axis(grid = False)),
+                alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid = False)),
             ).properties(
-        width=800).transform_filter(
-                (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.datum.YEAR == select2)&
+        width=1000).transform_filter(
+                (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.FieldOneOfPredicate(field='YEAR', oneOf=select2))&
                 (alt.FieldOneOfPredicate(field='MONTH', oneOf=select3))
             )
     return cha
@@ -148,12 +150,12 @@ def summary():
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size = 20).encode(
-        alt.X('YEAR'),
-        alt.Y('count(CRASH_RECORD_ID)'),
+        alt.X('YEAR', axis=alt.Axis(grid = False)),
+        alt.Y('count(CRASH_RECORD_ID)', axis=alt.Axis(grid = False)),
         row="PRIM_CONTRIBUTORY_CAUSE",
         column="DAMAGE"
     ).properties(
-        width = 800
+        width = 200
     ).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
@@ -237,7 +239,7 @@ def int_vega():
         size=alt.SizeValue(75)
 
     ).properties(
-        width=550,
+        width=500,
         height=300,
     ).add_selection(
         brush
@@ -267,7 +269,7 @@ def int_vega():
     ).transform_filter(
         brush
     ).properties(
-        width=550,
+        width=500,
     ).add_selection(
         click
     )
