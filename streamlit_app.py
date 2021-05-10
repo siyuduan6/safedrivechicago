@@ -9,7 +9,7 @@ import pydeck as deck
 import time
 from streamlit_folium import folium_static
 
-
+@st.cache(suppress_st_warning=True)
 def doc(f):
     rl_vio = pd.read_csv(
         "https://gist.githubusercontent.com/siyuduan6/19de7046dbc21673b8f927bb24ad1195/raw/655a655c5068d349e9fccb8a2abd54b59c6073af/crashes.csv")
@@ -26,14 +26,14 @@ def doc(f):
     file_list = [rl_vio, rl_vio1, rl_vio2, rl_lo, s_loc, r_la, r_lo]
     return file_list[f]
 
-
+@st.cache(suppress_st_warning=True)
 def chicago_map():
     latitude = 41.8781
     longitude = -87.6298
     chi_m = folium.Map(location=[latitude, longitude], zoom_start=12, tiles='OpenStreetMap')
     return chi_m
 
-
+@st.cache(suppress_st_warning=True)
 def icon_adder(df, color, shape, info):
     latitude = 41.8781
     longitude = -87.6298
@@ -47,7 +47,7 @@ def icon_adder(df, color, shape, info):
             chi_map)
     return chi_map
 
-
+@st.cache(suppress_st_warning=True)
 def icon_adder_re(map1, df2, color2, shape2, info2):
     r_la = list(df2["LATITUDE"])
     r_lo = list(df2["LONGITUDE"])
@@ -59,7 +59,7 @@ def icon_adder_re(map1, df2, color2, shape2, info2):
 
     return map1
 
-
+@st.cache(suppress_st_warning=True)
 def point_adder(df, info):
     latitude = 41.8781
     longitude = -87.6298
@@ -73,7 +73,7 @@ def point_adder(df, info):
     chi_map1.add_child(incidents)
     return folium_static(chi_map1)
 
-
+@st.cache(suppress_st_warning=True)
 def year_pick():
     rl_vio = doc(0)
     crash = rl_vio[rl_vio["YEAR"] > 2015]
@@ -85,11 +85,13 @@ def year_pick():
         file = crash[crash["YEAR"].isin(options)].dropna(subset=["LOCATION"])
     return point_adder(file, file["LOCATION"])
 
-
+@st.cache(suppress_st_warning=True)
 def vio_year():
     rl_vio1 = doc(1)
+    rl_vio1["MONTH"]= rl_vio1["MONTH"].astype("int")
     rl_vio2 = doc(2)
-    year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020], value=2020)
+    rl_vio2["MONTH"]= rl_vio2["MONTH"].astype("int")
+    year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020], value=2016)
     vio1 = rl_vio1[rl_vio1["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio = pd.DataFrame(vio1).merge(pd.DataFrame(vio2), left_index=True, right_index=True).rename(
@@ -106,7 +108,7 @@ def vio_year():
     plt.xticks(rotation=45)
     return fig
 
-
+@st.cache(suppress_st_warning=True)
 def stack_bar_chart():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
@@ -170,7 +172,7 @@ def stack_bar_chart():
                 
     return cha
 
-
+@st.cache(suppress_st_warning=True)
 def summary():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
@@ -194,7 +196,7 @@ def summary():
     )
     return sum
 
-
+@st.cache(suppress_st_warning=True)
 def summary_rl():
     alt.data_transformers.enable('default', max_rows=None)
     source1 = doc(1).dropna(subset=["MONTH"])
@@ -234,7 +236,7 @@ def summary_rl():
 
     return vio
 
-
+@st.cache(suppress_st_warning=True)
 def int_vega():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
