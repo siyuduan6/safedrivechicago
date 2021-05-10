@@ -177,8 +177,7 @@ def summary():
         alt.X('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0)),
         alt.Y('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
         row="PRIM_CONTRIBUTORY_CAUSE",
-        column="DAMAGE",
-        color= alt.value(["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
+        column="DAMAGE"
     ).properties(
         width=300
     ).transform_filter(
@@ -335,4 +334,3 @@ if __name__ == '__main__':
     st.write(stack_bar_chart())
     st.text("Crashes and Injures in the same period")
     st.write(int_vega())
-
