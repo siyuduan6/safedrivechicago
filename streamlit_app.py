@@ -68,10 +68,10 @@ def year_pick():
     rl_vio = doc(0)
     crash = rl_vio[rl_vio["YEAR"] > 2015]
     year_list = [2016, 2017, 2018, 2019, 2020, 2021]
-    file = crash[crash["YEAR"]==2020].dropna(subset=["LOCATION"])
+    file = crash.dropna(subset=["LOCATION"])
     options = st.sidebar.multiselect('View Car Crash by Year',year_list)
     if options:
-        file = crash[crash["YEAR"]==options].dropna(subset=["LOCATION"])
+        file = crash[crash["YEAR"] in options].dropna(subset=["LOCATION"])
     return point_adder(file, file["LOCATION"])
 
 
