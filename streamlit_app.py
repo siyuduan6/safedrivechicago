@@ -71,7 +71,7 @@ def year_pick():
     file = crash.dropna(subset=["LOCATION"])
     options = st.sidebar.multiselect('View Car Crash by Year',year_list)
     if options:
-        file = crash[crash["YEAR"] in options].dropna(subset=["LOCATION"])
+        file = crash[crash["YEAR"].isin(options)].dropna(subset=["LOCATION"])
     return point_adder(file, file["LOCATION"])
 
 
@@ -104,6 +104,7 @@ def stack_bar_chart():
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size=20).encode(
+        alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
         alt.Y('YEAR'),
         alt.X('count(CRASH_RECORD_ID)'),
         color="PRIM_CONTRIBUTORY_CAUSE",
@@ -112,7 +113,7 @@ def stack_bar_chart():
             'PRIM_CONTRIBUTORY_CAUSE',
             sort='ascending'
         )).properties(
-        width=550).transform_filter(
+        width=800).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
 
@@ -121,6 +122,7 @@ def stack_bar_chart():
     select3 = st.sidebar.multiselect("Choose the month:",source["MONTH"].astype("int").unique())
     if select1 in crash_type:
         cha = alt.Chart(source).mark_bar().encode(
+            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
             y='YEAR',
             x='count(CRASH_RECORD_ID)'
             ).transform_filter(
@@ -128,10 +130,11 @@ def stack_bar_chart():
         )
         if select2:
             cha = alt.Chart(source).mark_bar().encode(
+                alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
                 y='MONTH',
                 x='count(CRASH_RECORD_ID)'
             ).properties(
-        width=550).transform_filter(
+        width=800).transform_filter(
                 (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.datum.YEAR == select2)&
                 (alt.FieldOneOfPredicate(field='MONTH', oneOf=select3))
             )
@@ -149,6 +152,8 @@ def summary():
         alt.Y('count(CRASH_RECORD_ID)'),
         row="PRIM_CONTRIBUTORY_CAUSE",
         column="DAMAGE"
+    ).properties(
+        width = 800
     ).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
