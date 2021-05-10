@@ -135,7 +135,7 @@ def stack_bar_chart():
             alt.Tooltip(["PRIM_CONTRIBUTORY_CAUSE:N", "count(CRASH_RECORD_ID):Q"]),
             alt.Y('YEAR', axis=alt.Axis(grid=False)),
             alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False)),
-            alt.Color("#e7ba52")
+            color=alt.value("#e7ba52")
         ).properties(
             width=1000
         ).transform_filter(
@@ -146,7 +146,7 @@ def stack_bar_chart():
                 alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
                 alt.Y('MONTH', axis=alt.Axis(grid=False)),
                 alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False)),
-                alt.Color("#c7c7c7")
+                color=alt.Value("#c7c7c7")
             ).properties(
                 width=1000).transform_filter(
                 (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)))
@@ -156,7 +156,7 @@ def stack_bar_chart():
                     alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
                     alt.Y('MONTH', axis=alt.Axis(grid=False)),
                     alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False)),
-                    alt.Color("#659CCA")
+                    color=alt.Value("#659CCA")
                 ).properties(
                     width=1000).transform_filter(
                     (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (
@@ -174,7 +174,7 @@ def summary():
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size=20).encode(
-        alt.X('YEAR', axis=alt.Axis(grid=False)),
+        alt.X('YEAR:O', axis=alt.Axis(grid=False)),
         alt.Y('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False)),
         row="PRIM_CONTRIBUTORY_CAUSE",
         column="DAMAGE"
@@ -196,7 +196,7 @@ def summary():
                           alt.value('darkgray'))
     rl = alt.Chart(source1).mark_bar(size=20).encode(
         alt.Tooltip(["YEAR:O", "MONTH:O", "sum(VIOLATIONS):Q"]),
-        alt.X('MONTH',
+        alt.X('MONTH:O',
               axis=alt.Axis(grid=False)),
         alt.Y('sum(VIOLATIONS):Q', title="Red Light Violation Number", axis=alt.Axis(grid=False)),
         color=color
