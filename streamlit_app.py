@@ -9,7 +9,7 @@ import pydeck as deck
 import time
 from streamlit_folium import folium_static
 
-@st.cache(suppress_st_warning=True)
+@st.cache(allow_output_mutation=True)
 def doc(f):
     rl_vio = pd.read_csv(
         "https://gist.githubusercontent.com/siyuduan6/19de7046dbc21673b8f927bb24ad1195/raw/655a655c5068d349e9fccb8a2abd54b59c6073af/crashes.csv")
