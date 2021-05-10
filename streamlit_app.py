@@ -129,7 +129,7 @@ def stack_bar_chart():
                 sort='ascending'
             )).properties(
             height=400,
-            width=600).transform_filter(
+            width=800).transform_filter(
             alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
         ).interactive()
     else:   
@@ -259,7 +259,6 @@ def int_vega():
               )),
         color=alt.condition(brush, color, alt.value('darkgray')),
         size="DAMAGE:N"
-
     ).properties(
         width=300,
         height=300,
@@ -287,7 +286,7 @@ def int_vega():
                   minExtent=30,
                   grid=False,
               )), color=alt.condition(brush, color, alt.value('red')),
-        size=("DAMAGE:N:, title="Damage")
+        size="DAMAGE:N"
     ).transform_filter(
         brush
     ).properties(
