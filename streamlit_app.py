@@ -115,8 +115,8 @@ def stack_bar_chart():
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size=20).encode(
         alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
-        alt.Y('YEAR', axis=alt.Axis(grid=False)),
-        alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False)),
+        alt.Y('YEAR', axis=alt.Axis(grid=False, labelAngle=0)),
+        alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
         color="PRIM_CONTRIBUTORY_CAUSE",
         order=alt.Order(
             # Sort the segments of the bars by this field
@@ -133,8 +133,8 @@ def stack_bar_chart():
     if select1 in crash_type:
         cha = alt.Chart(source).mark_bar(size=20).encode(
             alt.Tooltip(["PRIM_CONTRIBUTORY_CAUSE:N", "count(CRASH_RECORD_ID):Q"]),
-            alt.Y('YEAR', axis=alt.Axis(grid=False)),
-            alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False)),
+            alt.Y('YEAR', axis=alt.Axis(grid=False, labelAngle=0)),
+            alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
             color=alt.value("#e7ba52")
         ).properties(
             width=1000
@@ -144,8 +144,8 @@ def stack_bar_chart():
         if select2:
             cha = alt.Chart(source).mark_bar(size=20).encode(
                 alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
-                alt.Y('MONTH', axis=alt.Axis(grid=False)),
-                alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False)),
+                alt.Y('MONTH', axis=alt.Axis(grid=False, labelAngle=0)),
+                alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
                 color=alt.Value("#c7c7c7")
             ).properties(
                 width=1000).transform_filter(
@@ -154,8 +154,8 @@ def stack_bar_chart():
             if select3:
                 cha = alt.Chart(source).mark_bar(size=20).encode(
                     alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
-                    alt.Y('MONTH', axis=alt.Axis(grid=False)),
-                    alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False)),
+                    alt.Y('MONTH', axis=alt.Axis(grid=False, labelAngle=0)),
+                    alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
                     color=alt.Value("#659CCA")
                 ).properties(
                     width=1000).transform_filter(
@@ -173,11 +173,14 @@ def summary():
                   "FAILING TO YIELD RIGHT-OF-WAY",
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
+    scale = alt.Scale(domain=[2015, 2016, 2017, 2018, 2019, 2020],
+                      range=["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
     cha = alt.Chart(source).mark_bar(size=20).encode(
-        alt.X('YEAR:O', axis=alt.Axis(grid=False)),
-        alt.Y('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False)),
+        alt.X('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0)),
+        alt.Y('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
         row="PRIM_CONTRIBUTORY_CAUSE",
-        column="DAMAGE"
+        column="DAMAGE",
+        color=scale
     ).properties(
         width=300
     ).transform_filter(
@@ -185,27 +188,26 @@ def summary():
     ).interactive()
 
     alt.data_transformers.enable('default', max_rows=None)
-    source1 = doc(1)
-    source2 = doc(2)
+    source1 = doc(1).dropna(subset="MONTH")
+    source2 = doc(2).dropna(subset="MONTH")
     selection = alt.selection_interval()
 
-    scale = alt.Scale(domain=[2015, 2016, 2017, 2018, 2019, 2020],
-                      range=["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
+
     color = alt.condition(selection,
                           alt.Color('YEAR:O', scale=scale),
                           alt.value('darkgray'))
     rl = alt.Chart(source1).mark_bar(size=20).encode(
         alt.Tooltip(["YEAR:O", "MONTH:O", "sum(VIOLATIONS):Q"]),
         alt.X('MONTH:O',
-              axis=alt.Axis(grid=False)),
-        alt.Y('sum(VIOLATIONS):Q', title="Red Light Violation Number", axis=alt.Axis(grid=False)),
+              axis=alt.Axis(grid=False, labelAngle=0)),
+        alt.Y('sum(VIOLATIONS):Q', title="Red Light Violation Number", axis=alt.Axis(grid=False, labelAngle=0)),
         color=color
     )
 
     speed = alt.Chart(source2).mark_bar(size=20).encode(
         alt.Tooltip(["YEAR:O", "MONTH:O", "sum(VIOLATIONS):Q"]),
-        alt.X('MONTH', axis=alt.Axis(grid=False)),
-        alt.Y('sum(VIOLATIONS):Q', title="Speed Violation Number", axis=alt.Axis(grid=False)),
+        alt.X('MONTH:0', axis=alt.Axis(grid=False, labelAngle=0)),
+        alt.Y('sum(VIOLATIONS):Q', title="Speed Violation Number", axis=alt.Axis(grid=False, labelAngle=0)),
         color=color
     )
     legend = alt.Chart(source1).mark_rect().encode(
@@ -331,3 +333,4 @@ if __name__ == '__main__':
     st.write(stack_bar_chart())
     st.text("Crashes and Injures in the same period")
     st.write(int_vega())
+
