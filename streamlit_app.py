@@ -130,8 +130,8 @@ def stack_bar_chart():
     ).interactive()
     st.sidebar.title("What causes the accidents?")
     select1 = st.sidebar.selectbox("Choose the crash type: ", crash_type)
-    select2 = st.sidebar.multiselect("Choose the year: ", source["YEAR"].astype("int").unique())
-    select3 = st.sidebar.multiselect("Choose the month:", source["MONTH"].astype("int").unique())
+    select2 = st.sidebar.multiselect("Choose the year: ", [2015,2016,2017,2018,2019,2020,2021])
+    select3 = st.sidebar.multiselect("Choose the month:", [1,2,3,4,5,6,7,8,9,10,11,12])
     if select1 in crash_type:
         cha = alt.Chart(source).mark_bar(size=20).encode(
             alt.Tooltip(["PRIM_CONTRIBUTORY_CAUSE:N", "count(CRASH_RECORD_ID):Q"]),
@@ -153,7 +153,7 @@ def stack_bar_chart():
             ).properties(
                 height=400,
                 width=600).transform_filter(
-                (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)))
+                alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1).transform_filter(alt.FieldOneOfPredicate(field='YEAR', oneOf=select2))
 
             if select3:
                 cha = alt.Chart(source).mark_bar(size=20).encode(
@@ -164,9 +164,9 @@ def stack_bar_chart():
                 ).properties(
                     height=400,
                 width=600).transform_filter(
-                    (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (
-                        alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)) &
-                    (alt.FieldOneOfPredicate(field='MONTH', oneOf=select3))
+                    alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1).transform_filter(
+                        alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)).transform_filter(
+                    alt.FieldOneOfPredicate(field='MONTH', oneOf=select3))
                 )
     return cha
 
