@@ -79,7 +79,8 @@ def year_pick():
     crash = rl_vio[rl_vio["YEAR"] > 2015]
     year_list = [2016, 2017, 2018, 2019, 2020, 2021]
     file = crash.dropna(subset=["LOCATION"])
-    options = st.sidebar.multiselect('View Car Crash by Year', year_list)
+    st.sidebar.title("Number of car crashes at each block?")
+    options = st.sidebar.multiselect('View Car Crash by Years', year_list)
     if options:
         file = crash[crash["YEAR"].isin(options)].dropna(subset=["LOCATION"])
     return point_adder(file, file["LOCATION"])
@@ -126,7 +127,7 @@ def stack_bar_chart():
         width=1000).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
-
+    st.sidebar.title("What causes the accidents?")
     select1 = st.sidebar.selectbox("Choose the crash type: ", crash_type)
     select2 = st.sidebar.multiselect("Choose the year: ", source["YEAR"].astype("int").unique())
     select3 = st.sidebar.multiselect("Choose the month:", source["MONTH"].astype("int").unique())
@@ -192,8 +193,8 @@ def summary():
 
 def summary_rl():
     alt.data_transformers.enable('default', max_rows=None)
-    source1 = doc(1).dropna(subset=["MONTH"])
-    source2 = doc(2).dropna(subset=["MONTH"])
+    source1 = doc(1)
+    source2 = doc(2)
     selection = alt.selection_interval()
     scale = alt.Scale(domain=[2015, 2016, 2017, 2018, 2019, 2020],
                       range=["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
@@ -206,6 +207,8 @@ def summary_rl():
               axis=alt.Axis(grid=False, labelAngle=0)),
         alt.Y('sum(VIOLATIONS):Q', title="Red Light Violation Number", axis=alt.Axis(grid=False, labelAngle=0)),
         color=color
+    ).transform_filter(
+        (alt.FieldOneOfPredicate(field='MONTH', oneOf=[1,2,3,4,5,6,7,8,9,10,11,12]))
     )
 
     speed = alt.Chart(source2).mark_bar(size=20).encode(
@@ -213,7 +216,10 @@ def summary_rl():
         alt.X('MONTH:0', axis=alt.Axis(grid=False, labelAngle=0)),
         alt.Y('sum(VIOLATIONS):Q', title="Speed Violation Number", axis=alt.Axis(grid=False, labelAngle=0)),
         color=color
+    ).transform_filter(
+        (alt.FieldOneOfPredicate(field='MONTH', oneOf=[1,2,3,4,5,6,7,8,9,10,11,12]))
     )
+
     legend = alt.Chart(source1).mark_rect().encode(
         alt.Y('YEAR:O'),
         color=color
@@ -307,11 +313,20 @@ def int_vega():
 
 if __name__ == '__main__':
     st.title(" Welcome to Drive Safe in Chicago")
+    st.text("When you are on the road, drive safe is the priority. However, traffic law violations and traffic accidents"
+            "are happening all the time.\nHere, you can get the locations of traffic cameras and the basic statistic of "
+            "red light violations, speed violations and car crash cases in Chicago from 2015 to March 2021. "
+            "\nNot only for displaying numbers, but also for "
+            "alarming you to beware of the danger and letting you be aware of the importance to obey traffic rules.\n"
+            "Drive Safe!\n"
+            "(The data are from Chicago Data Portal [link](https://data.cityofchicago.org/))")
     st.header(" Locations of Traffic Cameras")
+    st.text("Click the markers to view the locations of traffic cameras.")
     rl = doc(3)
     s = doc(4)
-    sc = st.sidebar.checkbox("Want to see the speed camera location?", False)
-    rlc = st.sidebar.checkbox("Want to see the red light camera location?", False)
+    st.sidebar.title("Want to find the locations of traffic cameras?")
+    sc = st.sidebar.checkbox("Want to see the speed camera locations?", False)
+    rlc = st.sidebar.checkbox("Want to see the red light camera locations?", False)
     if rlc and not sc:
         chi_m = icon_adder(rl, "red", "info-sign", rl["INTERSECTION"])
     elif sc and not rlc:
@@ -323,16 +338,20 @@ if __name__ == '__main__':
         chi_m = chicago_map()
     folium_static(chi_m)
     st.header(" Car Crash Accidents in Chicago ")
+    st.text("How many car crashes happened each year in Chicago? Select years by drop-down!")
     year_pick()
     st.header("*Summary*")
+    st.text("Damages and Causes of car accidents by year.")
     st.write(summary())
     st.write(summary_rl())
-    st.text("Violation Cases in Chicago Per Month")
-    vio = vio_year()
-    st.write(vio)
     st.text("Top 5 Causes of Car Crash Accident")
     st.write(stack_bar_chart())
     st.text("Crashes and Injures in the same period")
     st.write(int_vega())
+    st.text("Violation Cases in Chicago Per Month")
+    st.text("Slide the slider to view the number of violations in Chicago.")
+    vio = vio_year()
+    st.write(vio)
+
 
 
