@@ -9,7 +9,7 @@ import pydeck as deck
 import time
 from streamlit_folium import folium_static
 
-@st.cache
+@st.cache(suppress_st_warning=True) 
 def doc(f):
     rl_vio = pd.read_csv(
         "https://gist.githubusercontent.com/siyuduan6/19de7046dbc21673b8f927bb24ad1195/raw/655a655c5068d349e9fccb8a2abd54b59c6073af/crashes.csv")
@@ -85,7 +85,7 @@ def year_pick():
         file = crash[crash["YEAR"].isin(options)].dropna(subset=["LOCATION"])
     return point_adder(file, file["LOCATION"])
 
-@st.cache
+@st.cache(suppress_st_warning=True) 
 def vio_year():
     rl_vio1 = doc(1)
     rl_vio1["MONTH"]= rl_vio1["MONTH"].astype("int")
@@ -108,7 +108,7 @@ def vio_year():
     plt.xticks(rotation=45)
     return fig
 
-@st.cache
+@st.cache(suppress_st_warning=True) 
 def stack_bar_chart():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
@@ -172,7 +172,7 @@ def stack_bar_chart():
                 
     return cha
 
-@st.cache
+@st.cache(suppress_st_warning=True) 
 def summary():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
@@ -196,7 +196,7 @@ def summary():
     )
     return sum
 
-@st.cache
+@st.cache(suppress_st_warning=True) 
 def summary_rl():
     alt.data_transformers.enable('default', max_rows=None)
     source1 = doc(1).dropna(subset=["MONTH"])
@@ -236,7 +236,7 @@ def summary_rl():
 
     return vio
 
-@st.cache
+@st.cache(suppress_st_warning=True) 
 def int_vega():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
