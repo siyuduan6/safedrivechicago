@@ -149,7 +149,7 @@ def stack_bar_chart():
                 alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
                 alt.Y('MONTH', axis=alt.Axis(grid=False, labelAngle=0)),
                 alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
-                color=alt.Value("darkgray")
+                color=alt.value("darkgray")
             ).properties(
                 height=400,
                 width=600).transform_filter(
@@ -160,9 +160,10 @@ def stack_bar_chart():
                     alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
                     alt.Y('MONTH', axis=alt.Axis(grid=False, labelAngle=0)),
                     alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
-                    color=alt.Value("#659CCA")
+                    color=alt.value("#659CCA")
                 ).properties(
-                    width=600).transform_filter(
+                    height=400,
+                width=600).transform_filter(
                     (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (
                         alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)) &
                     (alt.FieldOneOfPredicate(field='MONTH', oneOf=select3))
