@@ -258,7 +258,7 @@ def int_vega():
                   grid=False,
               )),
         color=alt.condition(brush, color, alt.value('darkgray')),
-        size=("DAMAGE:N:, title="Damage")
+        size="DAMAGE:N"
 
     ).properties(
         width=300,
