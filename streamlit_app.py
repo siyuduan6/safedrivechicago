@@ -108,7 +108,6 @@ def vio_year():
     plt.xticks(rotation=45)
     return fig
 
-@st.cache(suppress_st_warning=True) 
 def stack_bar_chart():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
@@ -236,7 +235,6 @@ def summary_rl():
 
     return vio
 
-@st.cache(suppress_st_warning=True) 
 def int_vega():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
