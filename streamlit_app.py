@@ -138,7 +138,7 @@ def stack_bar_chart():
             ).properties(
         width=1000).transform_filter(
                 (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)))
-            )
+          
             if select3:
                  cha = alt.Chart(source).mark_bar().encode(
                 alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
