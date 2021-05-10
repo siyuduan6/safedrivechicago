@@ -88,6 +88,8 @@ def year_pick():
 def vio_year():
     rl_vio1 = doc(1).dropna(subset=["MONTH"])
     rl_vio2 = doc(2).dropna(subset=["MONTH"])
+    rl_vio1["MONTH"] = rl_vio1["MONTH"].astype("int")
+    rl_vio2["MONTH"] = rl_vio2["MONTH"].astype("int")
     year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020], value=2018)
     vio1 = rl_vio1[rl_vio1["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
@@ -256,7 +258,7 @@ def int_vega():
                   grid=False,
               )),
         color=alt.condition(brush, color, alt.value('darkgray')),
-        size=alt.SizeValue(75)
+        size=("DAMAGE:N:, title="Damage")
 
     ).properties(
         width=300,
@@ -285,7 +287,7 @@ def int_vega():
                   minExtent=30,
                   grid=False,
               )), color=alt.condition(brush, color, alt.value('red')),
-        size=alt.SizeValue(75)
+        size=("DAMAGE:N:, title="Damage")
     ).transform_filter(
         brush
     ).properties(
@@ -310,7 +312,7 @@ if __name__ == '__main__':
             "\nNot only for displaying numbers, but also for alarming you to beware of the danger" 
             "\nand letting you be aware of the importance to obey traffic rules.\n"
             "Drive Safely and Carefullly!\n")
-    st.write("(The data are from Chicago Data Portal[link](https://data.cityofchicago.org/).)")
+    st.write("(The data are from [Chicago Data Portal](https://data.cityofchicago.org/).)")
     st.header(" Locations of Traffic Cameras")
     st.text("Click the markers to view the locations of traffic cameras.")
     rl = doc(3)
