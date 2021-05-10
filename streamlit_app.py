@@ -300,8 +300,6 @@ if __name__ == '__main__':
     else:
         chi_m = chicago_map()  
     st.write(chi_m)
-    st.header(" Car Crash Accidents in Chicago ")
-    st.write(year_pick())
     st.header("*Summary*")
     st.write(summary())
     st.text("Violation Cases in Chicago Per Month")
@@ -311,4 +309,6 @@ if __name__ == '__main__':
     st.write(stack_bar_chart())
     st.text("Crashes and Injures in the same period")
     st.write(int_vega())
+    st.header(" Car Crash Accidents in Chicago ")
+    st.write(year_pick())
 
