@@ -173,8 +173,6 @@ def summary():
                   "FAILING TO YIELD RIGHT-OF-WAY",
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
-    scale = alt.Scale(domain=[2015, 2016, 2017, 2018, 2019, 2020],
-                      range=["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
     cha = alt.Chart(source).mark_bar(size=20).encode(
         alt.X('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0)),
         alt.Y('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
@@ -186,13 +184,20 @@ def summary():
     ).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
+    sum = alt.vconcat(
+        cha,
+        title="Summary of Car Crash Accidents"
+    )
+    return sum
 
+
+def summary_rl():
     alt.data_transformers.enable('default', max_rows=None)
     source1 = doc(1).dropna(subset="MONTH")
     source2 = doc(2).dropna(subset="MONTH")
     selection = alt.selection_interval()
-
-
+    scale = alt.Scale(domain=[2015, 2016, 2017, 2018, 2019, 2020],
+                      range=["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
     color = alt.condition(selection,
                           alt.Color('YEAR:O', scale=scale),
                           alt.value('darkgray'))
@@ -221,12 +226,8 @@ def summary():
         speed, legend,
         title="Summary of Violations: Red Light Violations and Speed Violations"
     )
-    sum = alt.vconcat(
-        cha,
-        vio,
-        title="Summary of Car Crash Accidents"
-    )
-    return sum
+
+    return vio
 
 
 def int_vega():
@@ -326,6 +327,7 @@ if __name__ == '__main__':
     year_pick()
     st.header("*Summary*")
     st.write(summary())
+    st.write(summary_rl())
     st.text("Violation Cases in Chicago Per Month")
     vio = vio_year()
     st.write(vio)
@@ -333,5 +335,4 @@ if __name__ == '__main__':
     st.write(stack_bar_chart())
     st.text("Crashes and Injures in the same period")
     st.write(int_vega())
-
 
