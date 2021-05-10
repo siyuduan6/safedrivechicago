@@ -193,8 +193,8 @@ def summary():
 
 def summary_rl():
     alt.data_transformers.enable('default', max_rows=None)
-    source1 = doc(1).dropna(subset=["MONTH"]
-    source2 = doc(2).dropna(subset=["MONTH"]         
+    source1 = doc(1).dropna(subset=["MONTH"])
+    source2 = doc(2).dropna(subset=["MONTH"])        
     selection = alt.selection_interval()
     scale = alt.Scale(domain=[2015, 2016, 2017, 2018, 2019, 2020],
                       range=["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
