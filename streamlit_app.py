@@ -85,7 +85,6 @@ def year_pick():
         file = crash[crash["YEAR"].isin(options)].dropna(subset=["LOCATION"])
     return point_adder(file, file["LOCATION"])
 
-@st.cache(suppress_st_warning=True) 
 def vio_year():
     rl_vio1 = doc(1).dropna(subset=["MONTH"])
     rl_vio2 = doc(2).dropna(subset=["MONTH"])
@@ -157,7 +156,7 @@ def stack_bar_chart():
                 
     return cha
 
-@st.cache(suppress_st_warning=True) 
+
 def summary():
     rl_vio = doc(0)
     source = rl_vio[rl_vio["YEAR"] > 2015]
@@ -182,7 +181,7 @@ def summary():
     )
     return sum
 
-@st.cache(suppress_st_warning=True) 
+ 
 def summary_rl():
     alt.data_transformers.enable('default', max_rows=None)
     source1 = doc(1).dropna(subset=["MONTH"])
