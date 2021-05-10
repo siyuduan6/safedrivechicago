@@ -238,67 +238,130 @@ def int_vega():
     brush = alt.selection_interval()
 
     # Top panel is scatter plot of temperature vs time
-    points = alt.Chart(source).mark_point().encode(
-        alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTALL):Q"]),
-        alt.X('MONTH:O', title='Month',
-              axis=alt.Axis(
-                  offset=10,
-                  labelAngle=0,
-                  ticks=True,
-                  minExtent=30,
-                  grid=False
-              )
-              ),
-        alt.Y('count(CRASH_RECORD_ID):Q',
-              scale=alt.Scale(domain=[0, 200]),
-              axis=alt.Axis(
-                  offset=10,
-                  ticks=True,
-                  minExtent=30,
-                  grid=False,
-              )),
-        color=alt.condition(brush, color, alt.value('darkgray')),
-        size="DAMAGE:N"
-    ).properties(
-        width=800,
-        height=300,
-    ).add_selection(
-        brush
-    ).transform_filter(
-        click
-    )
+    if st.Button("Show Damage Level"):
+        points = alt.Chart(source).mark_point().encode(
+            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTALL):Q"]),
+            alt.X('MONTH:O', title='Month',
+                  axis=alt.Axis(
+                      offset=10,
+                      labelAngle=0,
+                      ticks=True,
+                      minExtent=30,
+                      grid=False
+                  )
+                  ),
+            alt.Y('count(CRASH_RECORD_ID):Q',
+                  scale=alt.Scale(domain=[0, 200]),
+                  axis=alt.Axis(
+                      offset=10,
+                      ticks=True,
+                      minExtent=30,
+                      grid=False,
+                  )),
+            color=alt.condition(brush, color, alt.value('darkgray')),
+            size="DAMAGE:N"
+        ).properties(
+            width=750,
+            height=400,
+        ).add_selection(
+            brush
+        ).transform_filter(
+            click
+        )
 
-    lines = alt.Chart(source2).mark_circle().encode(
-        alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTAL):Q"]),
-        alt.X('MONTH:O',title="Month",
-              axis=alt.Axis(
-                  offset=10,
-                  ticks=True,
-                  labelAngle=0,
-                  minExtent=30,
-                  grid=False
-              )),
-        alt.Y("sum(INJURIES_TOTAL):Q",
-              title="Injured Number",
-              axis=alt.Axis(
-                  offset=10,
-                  ticks=True,
-                  minExtent=30,
-                  grid=False,
-              )), color=alt.condition(brush, color, alt.value('red')),
-        size="DAMAGE:N"
-    ).transform_filter(
-        brush
-    ).properties(
-        width=800,
-    ).add_selection(
-        click
-    )
-    vega = alt.vconcat(
-        points,
-        lines,
-        title="Cases VS Injured"
-    )
+        lines = alt.Chart(source2).mark_circle().encode(
+            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTAL):Q"]),
+            alt.X('MONTH:O',title="Month",
+                  axis=alt.Axis(
+                      offset=10,
+                      ticks=True,
+                      labelAngle=0,
+                      minExtent=30,
+                      grid=False
+                  )),
+            alt.Y("sum(INJURIES_TOTAL):Q",
+                  title="Injured Number",
+                  axis=alt.Axis(
+                      offset=10,
+                      ticks=True,
+                      minExtent=30,
+                      grid=False,
+                  )), color=alt.condition(brush, color, alt.value('red')),
+            size="DAMAGE:N"
+        ).transform_filter(
+            brush
+        ).properties(
+            width=750,
+        ).add_selection(
+            click
+        )
+        vega = alt.vconcat(
+            points,
+            lines,
+            title="Cases VS Injured"
+        )
+        else:
+            points = alt.Chart(source).mark_point().encode(
+            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTALL):Q"]),
+            alt.X('MONTH:O', title='Month',
+                  axis=alt.Axis(
+                      offset=10,
+                      labelAngle=0,
+                      ticks=True,
+                      minExtent=30,
+                      grid=False
+                  )
+                  ),
+            alt.Y('count(CRASH_RECORD_ID):Q',
+                  scale=alt.Scale(domain=[0, 200]),
+                  axis=alt.Axis(
+                      offset=10,
+                      ticks=True,
+                      minExtent=30,
+                      grid=False,
+                  )),
+            color=alt.condition(brush, color, alt.value('darkgray')),
+            size=alt.value(80)
+        ).properties(
+            width=750,
+            height=400,
+        ).add_selection(
+            brush
+        ).transform_filter(
+            click
+        )
+
+        lines = alt.Chart(source2).mark_circle().encode(
+            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTAL):Q"]),
+            alt.X('MONTH:O',title="Month",
+                  axis=alt.Axis(
+                      offset=10,
+                      ticks=True,
+                      labelAngle=0,
+                      minExtent=30,
+                      grid=False
+                  )),
+            alt.Y("sum(INJURIES_TOTAL):Q",
+                  title="Injured Number",
+                  axis=alt.Axis(
+                      offset=10,
+                      ticks=True,
+                      minExtent=30,
+                      grid=False,
+                  )), color=alt.condition(brush, color, alt.value('red')),
+            size= alt.value(80)
+        ).transform_filter(
+            brush
+        ).properties(
+            width=750,
+        ).add_selection(
+            click
+        )
+        vega = alt.vconcat(
+            points,
+            lines,
+            title="Cases VS Injured"
+        )
     return vega
 
 
