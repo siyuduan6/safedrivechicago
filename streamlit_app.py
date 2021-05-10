@@ -40,6 +40,18 @@ def icon_adder(df, color, shape, info):
         folium.Marker([la, lo],popup =label,icon=folium.Icon(color = color, icon = shape), tooltip="Show me").add_to(chi_map)
     return folium_static(chi_map)
 
+def icon_adder_map(df, color, shape, info):
+    latitude = 41.8781
+    longitude = -87.6298
+    chi_map = folium.Map(location=[latitude, longitude], zoom_start=12, tiles='OpenStreetMap')
+    r_la = list(df["LATITUDE"])
+    r_lo = list(df["LONGITUDE"])
+    labels = list(info)
+    incidents = folium.map.FeatureGroup(opacity=0.5)
+    for la, lo, label in zip(r_la, r_lo, labels):
+        folium.Marker([la, lo],popup =label,icon=folium.Icon(color = color, icon = shape), tooltip="Show me").add_to(chi_map)
+    return chi_map
+
 def icon_adder_re(map1, df2, color2, shape2, info2):
     r_la = list(df2["LATITUDE"])
     r_lo = list(df2["LONGITUDE"])
@@ -276,14 +288,14 @@ if __name__ == '__main__':
     st.header(" Locations of Traffic Cameras")
     rl = doc(3)
     s = doc(4)
-    sc = st.sidebar.checkbox("Want to see the speed camera location?", True)
-    rlc = st.sidebar.checkbox("Want to see the red light camera location?", True)
+    sc = st.sidebar.checkbox("Want to see the speed camera location?", False)
+    rlc = st.sidebar.checkbox("Want to see the red light camera location?", False)
     if rlc and not sc:
         chi_m = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
     elif sc and not rlc:
         chi_m = icon_adder(s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
     elif sc and rlc:
-        chi_rl = icon_adder(rl,"red","info-sign", rl["INTERSECTION"])
+        chi_rl = icon_adder_map(rl,"red","info-sign", rl["INTERSECTION"])
         chi_m = icon_adder_re(chi_rl, s,"blue","glyphicon glyphicon-warning-sign",s["ADDRESS"])
     else:
         chi_m = chicago_map()  
