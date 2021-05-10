@@ -116,7 +116,7 @@ def stack_bar_chart():
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size=20).encode(
         alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
-        alt.Y('YEAR', axis=alt.Axis(grid=False, labelAngle=0)),
+        alt.Y('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0)),
         alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
         color="PRIM_CONTRIBUTORY_CAUSE",
         order=alt.Order(
@@ -134,7 +134,7 @@ def stack_bar_chart():
     if select1 in crash_type:
         cha = alt.Chart(source).mark_bar(size=20).encode(
             alt.Tooltip(["PRIM_CONTRIBUTORY_CAUSE:N", "count(CRASH_RECORD_ID):Q"]),
-            alt.Y('YEAR', axis=alt.Axis(grid=False, labelAngle=0)),
+            alt.Y('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0)),
             alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
             color=alt.value("#e7ba52")
         ).properties(
@@ -295,7 +295,7 @@ def int_vega():
     ).transform_filter(
         brush
     ).properties(
-        width=500,
+        width=300,
     ).add_selection(
         click
     )
@@ -309,13 +309,14 @@ def int_vega():
 
 if __name__ == '__main__':
     st.title(" Welcome to Drive Safe in Chicago")
-    st.text("When you are on the road, drive safe is the priority. \nHowever, traffic law violations and traffic accidents"
-            "are happening all the time.\nHere, you can get the locations of traffic cameras and the basic statistic of "
-            "red light violations, \nspeed violations and car crash cases in Chicago from 2015 to March 2021. "
-            "\nNot only for displaying numbers, \nbut also for "
-            "alarming you to beware of the danger and letting you be aware of the importance to obey traffic rules.\n"
-            "Drive Safe!\n")
-    st.write("(The data are from Chicago Data Portal [link](https://data.cityofchicago.org/))")
+    st.text("When you are on the road, drive safe is the priority." 
+            "\nHowever, traffic law violations and traffic accidents are happening all the time."
+            "\nHere, you can get the locations of traffic cameras and the basic statistic of "
+            "red light \nviolations, speed violations and car crash cases in Chicago from 2015 to March 2021."
+            "\nNot only for displaying numbers, but also for alarming you to beware of the danger 
+            "\nand letting you be aware of the importance to obey traffic rules.\n"
+            "Drive Safely and Carefullly!\n")
+    st.write("(The data are from Chicago Data Portal[link](https://data.cityofchicago.org/).)")
     st.header(" Locations of Traffic Cameras")
     st.text("Click the markers to view the locations of traffic cameras.")
     rl = doc(3)
