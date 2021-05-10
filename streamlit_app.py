@@ -170,7 +170,7 @@ def summary():
     cha = alt.Chart(source).mark_bar(size=20).encode(
         alt.X('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0), title="Year"),
         alt.Y('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
-        alt.Row("PRIM_CONTRIBUTORY_CAUSE",title="Cause of Accident"),
+        alt.Row("PRIM_CONTRIBUTORY_CAUSE",title="Cause of Accidents"),
         alt.Column("DAMAGE", title="Damage")
     ).properties(
         width=200
@@ -201,7 +201,7 @@ def summary_rl():
         alt.Y('sum(VIOLATIONS):Q', title="Red Light Violation Number", axis=alt.Axis(grid=False, labelAngle=0)),
         color=color
     ).properties(
-        width=400
+        width=350
     )
 
     speed = alt.Chart(source2).mark_bar(size=20).encode(
@@ -210,7 +210,7 @@ def summary_rl():
         alt.Y('sum(VIOLATIONS):Q', title="Speed Violation Number", axis=alt.Axis(grid=False, labelAngle=0)),
         color=color
     ).properties(
-        width=400
+        width=350
     )
     
     legend = alt.Chart(source1).mark_rect().encode(
