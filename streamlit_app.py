@@ -88,9 +88,7 @@ def year_pick():
 @st.cache(suppress_st_warning=True) 
 def vio_year():
     rl_vio1 = doc(1).dropna(subset=["MONTH"])
-    rl_vio1["MONTH"]= rl_vio1["MONTH"].astype("int")
     rl_vio2 = doc(2).dropna(subset=["MONTH"])
-    rl_vio2["MONTH"]= rl_vio2["MONTH"].astype("int")
     year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020], value=2016)
     vio1 = rl_vio1[rl_vio1["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
@@ -168,6 +166,7 @@ def summary():
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size=20).encode(
+        alt.Tooltip(["YEAR:O","count(CRASH_RECORD_ID)","PRIM_CONTRIBUTORY_CAUSE","DAMAGE"])
         alt.X('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0), title="Year"),
         alt.Y('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
         alt.Row("PRIM_CONTRIBUTORY_CAUSE",title="Cause of Accidents"),
