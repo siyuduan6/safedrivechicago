@@ -167,7 +167,7 @@ def stack_bar_chart():
                     alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1).transform_filter(
                         alt.FieldOneOfPredicate(field='YEAR', oneOf=select2)).transform_filter(
                     alt.FieldOneOfPredicate(field='MONTH', oneOf=select3))
-                )
+                
     return cha
 
 
