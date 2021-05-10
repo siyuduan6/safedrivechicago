@@ -111,7 +111,8 @@ def stack_bar_chart():
             # Sort the segments of the bars by this field
             'PRIM_CONTRIBUTORY_CAUSE',
             sort='ascending'
-        )).transform_filter(
+        )).properties(
+        width=550).transform_filter(
         alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
     ).interactive()
 
@@ -129,7 +130,8 @@ def stack_bar_chart():
             cha = alt.Chart(source).mark_bar().encode(
                 y='MONTH',
                 x='count(CRASH_RECORD_ID)'
-            ).transform_filter(
+            ).properties(
+        width=550).transform_filter(
                 (alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1) & (alt.datum.YEAR == select2)&
                 (alt.FieldOneOfPredicate(field='MONTH', oneOf=select3))
             )
@@ -288,6 +290,8 @@ if __name__ == '__main__':
     else:
         chi_m = chicago_map()  
     folium_static(chi_m)
+    st.header(" Car Crash Accidents in Chicago ")
+    year_pick()
     st.header("*Summary*")
     st.write(summary())
     st.text("Violation Cases in Chicago Per Month")
@@ -297,6 +301,5 @@ if __name__ == '__main__':
     st.write(stack_bar_chart())
     st.text("Crashes and Injures in the same period")
     st.write(int_vega())
-    st.header(" Car Crash Accidents in Chicago ")
-    st.write(year_pick())
+
 
