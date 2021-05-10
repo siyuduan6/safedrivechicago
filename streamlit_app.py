@@ -166,7 +166,7 @@ def summary():
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size=20).encode(
-        alt.Tooltip(["YEAR:O","count(CRASH_RECORD_ID)","PRIM_CONTRIBUTORY_CAUSE","DAMAGE"])
+        alt.Tooltip(["YEAR:O","count(CRASH_RECORD_ID)","PRIM_CONTRIBUTORY_CAUSE","DAMAGE"]),
         alt.X('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0), title="Year"),
         alt.Y('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
         alt.Row("PRIM_CONTRIBUTORY_CAUSE",title="Cause of Accidents"),
