@@ -260,7 +260,7 @@ def int_vega():
         color=alt.condition(brush, color, alt.value('darkgray')),
         size="DAMAGE:N"
     ).properties(
-        width=300,
+        width=800,
         height=300,
     ).add_selection(
         brush
@@ -290,11 +290,11 @@ def int_vega():
     ).transform_filter(
         brush
     ).properties(
-        width=300,
+        width=800,
     ).add_selection(
         click
     )
-    vega = alt.hconcat(
+    vega = alt.vconcat(
         points,
         lines,
         title="Cases VS Injured"
