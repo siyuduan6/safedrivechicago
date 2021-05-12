@@ -374,7 +374,7 @@ if __name__ == '__main__':
             "\nNot only for displaying numbers, but also for alarming you to beware of the danger" 
             "\nand letting you be aware of the importance to obey traffic rules.\n"
             "Drive Safely and Carefullly!\n")
-    st.write("(The data are from [Chicago Data Portal](https://data.cityofchicago.org/).)")
+    st.text("(The data are from [Chicago Data Portal](https://data.cityofchicago.org/).)")
     st.header(" Locations of Traffic Cameras")
     st.text("Click the markers to view the locations of traffic cameras.")
     rl = doc(3)
@@ -401,7 +401,7 @@ if __name__ == '__main__':
     st.text("Choose an interval on the year bar and get the data!")
     st.write(summary_rl())
     st.header("Top 5 Causes of Car Crash Accident")
-    st.text("Select a tpe of causes and gain the summary!")
+    st.text("Select a type of causes and gain the summary!")
     st.write(stack_bar_chart())
     st.header("Crashes and Injures in the same period")
     st.text("Try to brush on the \"Cases\" chart and click on the \"Injured\" chart to find some relationships between the two!")
