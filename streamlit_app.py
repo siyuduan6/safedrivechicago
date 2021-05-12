@@ -374,7 +374,7 @@ if __name__ == '__main__':
             "\nNot only for displaying numbers, but also for alarming you to beware of the danger" 
             "\nand letting you be aware of the importance to obey traffic rules.\n"
             "Drive Safely and Carefullly!\n")
-    st.text("(The data are from [Chicago Data Portal](https://data.cityofchicago.org/).)")
+    st.write("(The data are from [Chicago Data Portal](https://data.cityofchicago.org/).)")
     st.header(" Locations of Traffic Cameras")
     st.text("Click the markers to view the locations of traffic cameras.")
     rl = doc(3)
