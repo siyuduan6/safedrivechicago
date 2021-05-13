@@ -18,13 +18,22 @@ def doc(f):
     rl_vio2 = pd.read_csv(
         "https://gist.githubusercontent.com/siyuduan6/1edea76a5ae96d1df162eb191aa954fd/raw/a28bc6c4827e201e4a543dfd893825cb94d99d81/Speed_Camera_Violations.csv",
         engine='python', encoding='utf-8', error_bad_lines=False)
+    rl_vio = trim_space(rl_vio)
+    rl_vio1 = trim_space(rl_vio1)
+    rl_vio2 = trim_space(rl_vio2)
     rl_lo = pd.read_csv("https://data.cityofchicago.org/api/views/7mgr-iety/rows.csv?accessType=DOWNLOAD")
     s_loc = pd.read_csv("https://data.cityofchicago.org/api/views/4i42-qv3h/rows.csv?accessType=DOWNLOAD")
     s_loc["ADDRESS"] = s_loc["ADDRESS"].str.split("(", expand=True).iloc[:, 0]
     r_la = list(rl_lo["LATITUDE"])
     r_lo = list(rl_lo["LONGITUDE"])
+    
     file_list = [rl_vio, rl_vio1, rl_vio2, rl_lo, s_loc, r_la, r_lo]
     return file_list[f]
+
+def trim_space(doc):
+    doc["MONTH"]=DOC["MONTH"].str.strip()
+    doc["YEAR"]=DOC["YEAR"].str.strip()
+    return doc
 
 
 def chicago_map():
