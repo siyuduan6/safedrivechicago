@@ -232,7 +232,7 @@ def summary_rl():
         alt.Y('YEAR:O'),
         color=color
     ).transform_filter(
-    alt.FieldOneOfPredict(field = "YEAR", oneOf= [2015, 2016, 2017, 2018, 2019, 2020])
+    alt.FieldOneOfPredicate(field = "YEAR", oneOf= [2015, 2016, 2017, 2018, 2019, 2020])
     ).add_selection(
         selection
     )
