@@ -12,11 +12,11 @@ from streamlit_folium import folium_static
 @st.cache(suppress_st_warning=True) 
 def doc(f):
     rl_vio = pd.read_csv(
-        "https://gist.githubusercontent.com/siyuduan6/19de7046dbc21673b8f927bb24ad1195/raw/655a655c5068d349e9fccb8a2abd54b59c6073af/crashes.csv")
+        "https://gist.githubusercontent.com/siyuduan6/f56bd9891215e2021fdc645fc3f230c9/raw/27fc9cdee144c96865557424569d08a1f1fe009f/crashes.csv")
     rl_vio1 = pd.read_csv(
-        "https://gist.githubusercontent.com/siyuduan6/4e46bffd955eb7d0fad85d03a7b25729/raw/4071e08a6521225856ac4ee837e71b1eb88ef7c1/red_light_violation.csv")
+        "https://gist.githubusercontent.com/siyuduan6/5fe633631d9f499d8b30c5208c00a36a/raw/a669e134399f7526c04e0537a1e8d5e30f370f24/red_light_violation.csv")
     rl_vio2 = pd.read_csv(
-        "https://gist.githubusercontent.com/siyuduan6/29203a998eda61848c67335d22846219/raw/557ceedb4d008752a3113a9455d4c525a1663920/Speed_Camera_Violations.csv",
+        "https://gist.githubusercontent.com/siyuduan6/1edea76a5ae96d1df162eb191aa954fd/raw/a28bc6c4827e201e4a543dfd893825cb94d99d81/Speed_Camera_Violations.csv",
         engine='python', encoding='utf-8', error_bad_lines=False)
     rl_lo = pd.read_csv("https://data.cityofchicago.org/api/views/7mgr-iety/rows.csv?accessType=DOWNLOAD")
     s_loc = pd.read_csv("https://data.cityofchicago.org/api/views/4i42-qv3h/rows.csv?accessType=DOWNLOAD")
