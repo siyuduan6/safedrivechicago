@@ -17,7 +17,7 @@ def doc(f):
         "https://gist.githubusercontent.com/siyuduan6/5fe633631d9f499d8b30c5208c00a36a/raw/a669e134399f7526c04e0537a1e8d5e30f370f24/red_light_violation.csv")
     rl_vio2 = pd.read_csv(
         "https://gist.githubusercontent.com/siyuduan6/1edea76a5ae96d1df162eb191aa954fd/raw/a28bc6c4827e201e4a543dfd893825cb94d99d81/Speed_Camera_Violations.csv",
-        engine='python', encoding='utf-8', error_bad_lines=False)
+        engine='python', error_bad_lines=False)
     rl_vio = trim_space(rl_vio)
     rl_vio1 = trim_space(rl_vio1)
     rl_vio2 = trim_space(rl_vio2)
@@ -31,6 +31,8 @@ def doc(f):
     return file_list[f]
 
 def trim_space(doc):
+    doc["MONTH"]=doc["MONTH"].astype("str")
+    doc["YEAR"]=doc["YEAR"].astype("str")
     doc["MONTH"]=doc["MONTH"].str.strip()
     doc["YEAR"]=doc["YEAR"].str.strip()
     return doc
