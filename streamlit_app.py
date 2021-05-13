@@ -31,6 +31,7 @@ def doc(f):
     return file_list[f]
 
 def trim_space(doc):
+    doc = doc.dropna(subset=["MONTH","YEAR"])
     doc["MONTH"]=doc["MONTH"].astype("int")
     doc["YEAR"]=doc["YEAR"].astype("int")
     doc["MONTH"]=doc["MONTH"].astype("str")
