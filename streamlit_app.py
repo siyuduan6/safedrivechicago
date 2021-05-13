@@ -133,7 +133,7 @@ def stack_bar_chart():
     select2 = st.sidebar.multiselect("Choose the year: ", [2015, 2016,2017,2018,2019,2020,2021])
     if st.button("View All"):
         cha = alt.Chart(source).mark_bar(size=20).encode(
-            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
+            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID)"]),
             alt.Y('YEAR:O', title="Year",axis=alt.Axis(grid=False, labelAngle=0)),
             alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
             color="PRIM_CONTRIBUTORY_CAUSE",
@@ -149,7 +149,7 @@ def stack_bar_chart():
     else:   
         if select1 in crash_type:
             cha = alt.Chart(source).mark_bar(size=20).encode(
-                alt.Tooltip(["PRIM_CONTRIBUTORY_CAUSE:N", "count(CRASH_RECORD_ID):Q"]),
+                alt.Tooltip(["PRIM_CONTRIBUTORY_CAUSE:N", "count(CRASH_RECORD_ID)"]),
                 alt.Y('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0), title="Year"),
                 alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1)),
                 color=alt.value("#e7ba52")
@@ -161,7 +161,7 @@ def stack_bar_chart():
             )
             if select2:
                 cha = alt.Chart(source).mark_bar(size=20).encode(
-                    alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
+                    alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID)"]),
                     alt.Y('MONTH:O', axis=alt.Axis(grid=False, labelAngle=0), title="Month"),
                     alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1)),
                     color=alt.value("darkgray")
@@ -231,6 +231,8 @@ def summary_rl():
     legend = alt.Chart(source1).mark_rect().encode(
         alt.Y('YEAR:O'),
         color=color
+    ).transform_filter(
+    alt.FieldOneOfPredict(field = "YEAR", oneOf= [2015, 2016, 2017, 2018, 2019, 2020])
     ).add_selection(
         selection
     )
