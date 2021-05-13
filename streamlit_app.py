@@ -12,11 +12,11 @@ from streamlit_folium import folium_static
 @st.cache(suppress_st_warning=True) 
 def doc(f):
     rl_vio = pd.read_csv(
-        "https://data.cityofchicago.org/api/views/85ca-t3if/rows.csv?accessType=DOWNLOAD")
+        "https://gist.githubusercontent.com/siyuduan6/67d4bcb2a15af7f462c58a18b252e332/raw/7e11d168762c30f1e0bbd08fda2ad0191fcc9c34/Traffic_Crashes.csv")
     rl_vio1 = pd.read_csv(
-        "https://data.cityofchicago.org/api/views/spqx-js37/rows.csv?accessType=DOWNLOAD")
+        "https://gist.githubusercontent.com/siyuduan6/ddbe981643d8b38773ad453ce4e1b963/raw/6b7524c6949ddb0358b97c1906924eeebba32eac/Red_Light_Camera_Violations.csv")
     rl_vio2 = pd.read_csv(
-        "https://data.cityofchicago.org/api/views/hhkd-xvj4/rows.csv?accessType=DOWNLOAD",
+        "https://gist.githubusercontent.com/siyuduan6/daee9d0b028b2bab368ee16f7489a1cf/raw/b5f0cf2647d23d2556107ad89e1b5f75be6c5e72/Speed_Camera_Violations.csv",
         engine='python', error_bad_lines=False)
     rl_vio = split_date2(rl_vio)
     rl_vio1 = split_date1(rl_vio1)
