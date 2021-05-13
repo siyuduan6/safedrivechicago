@@ -31,6 +31,8 @@ def doc(f):
     return file_list[f]
 
 def trim_space(doc):
+    doc["MONTH"]=doc["MONTH"].astype("int")
+    doc["YEAR"]=doc["YEAR"].astype("int")
     doc["MONTH"]=doc["MONTH"].astype("str")
     doc["YEAR"]=doc["YEAR"].astype("str")
     doc["MONTH"]=doc["MONTH"].str.strip()
