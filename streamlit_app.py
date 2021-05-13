@@ -87,7 +87,6 @@ def point_adder(df, info):
 
 def year_pick():
     rl_vio = doc(0)
-    crash = rl_vio[rl_vio["YEAR"] > 2015]
     year_list = [2016, 2017, 2018, 2019, 2020, 2021]
     file = crash.dropna(subset=["LOCATION"])
     st.sidebar.title("Number of car crashes at each block?")
@@ -99,8 +98,6 @@ def year_pick():
 def vio_year():
     rl_vio1 = doc(1).dropna(subset=["MONTH"])
     rl_vio2 = doc(2).dropna(subset=["MONTH"])
-    rl_vio1["MONTH"] = rl_vio1["MONTH"].astype("int")
-    rl_vio2["MONTH"] = rl_vio2["MONTH"].astype("int")
     year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020], value=2018)
     vio1 = rl_vio1[rl_vio1["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
@@ -120,6 +117,7 @@ def vio_year():
 
 def stack_bar_chart():
     rl_vio = doc(0)
+    rl_vio["YEAR"] = rl_vio["YEAR"].astype("int")
     source = rl_vio[rl_vio["YEAR"] > 2015]
     crash_type = ["FAILING TO REDUCE SPEED TO AVOID CRASH",
                   "FAILING TO YIELD RIGHT-OF-WAY",
@@ -172,6 +170,7 @@ def stack_bar_chart():
 
 def summary():
     rl_vio = doc(0)
+    rl_vio["YEAR"] = rl_vio["YEAR"].astype("int")
     source = rl_vio[rl_vio["YEAR"] > 2015]
     crash_type = ["FAILING TO REDUCE SPEED TO AVOID CRASH",
                   "FAILING TO YIELD RIGHT-OF-WAY",
@@ -240,6 +239,7 @@ def summary_rl():
 
 def int_vega():
     rl_vio = doc(0)
+    rl_vio["YEAR"] = rl_vio["YEAR"].astype("int")
     source = rl_vio[rl_vio["YEAR"] > 2015]
     source2 = source.dropna(subset=["INJURIES_TOTAL"])
     scale = alt.Scale(domain=[2016, 2017, 2018, 2019, 2020, 2021],
