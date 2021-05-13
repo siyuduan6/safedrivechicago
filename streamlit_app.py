@@ -12,15 +12,15 @@ from streamlit_folium import folium_static
 @st.cache(suppress_st_warning=True) 
 def doc(f):
     rl_vio = pd.read_csv(
-        "https://gist.githubusercontent.com/siyuduan6/f56bd9891215e2021fdc645fc3f230c9/raw/27fc9cdee144c96865557424569d08a1f1fe009f/crashes.csv")
+        "https://data.cityofchicago.org/api/views/85ca-t3if/rows.csv?accessType=DOWNLOAD")
     rl_vio1 = pd.read_csv(
-        "https://gist.githubusercontent.com/siyuduan6/5fe633631d9f499d8b30c5208c00a36a/raw/a669e134399f7526c04e0537a1e8d5e30f370f24/red_light_violation.csv")
+        "https://data.cityofchicago.org/api/views/spqx-js37/rows.csv?accessType=DOWNLOAD")
     rl_vio2 = pd.read_csv(
-        "https://gist.githubusercontent.com/siyuduan6/1edea76a5ae96d1df162eb191aa954fd/raw/a28bc6c4827e201e4a543dfd893825cb94d99d81/Speed_Camera_Violations.csv",
+        "https://data.cityofchicago.org/api/views/hhkd-xvj4/rows.csv?accessType=DOWNLOAD",
         engine='python', error_bad_lines=False)
-    rl_vio = trim_space(rl_vio)
-    rl_vio1 = trim_space(rl_vio1)
-    rl_vio2 = trim_space(rl_vio2)
+    rl_vio = split_date2(rl_vio)
+    rl_vio1 = split_date1(rl_vio1)
+    rl_vio2 = split_date1(rl_vio2)
     rl_lo = pd.read_csv("https://data.cityofchicago.org/api/views/7mgr-iety/rows.csv?accessType=DOWNLOAD")
     s_loc = pd.read_csv("https://data.cityofchicago.org/api/views/4i42-qv3h/rows.csv?accessType=DOWNLOAD")
     s_loc["ADDRESS"] = s_loc["ADDRESS"].str.split("(", expand=True).iloc[:, 0]
@@ -30,15 +30,17 @@ def doc(f):
     file_list = [rl_vio, rl_vio1, rl_vio2, rl_lo, s_loc, r_la, r_lo]
     return file_list[f]
 
-def trim_space(doc):
-    doc = doc.dropna(subset=["MONTH","YEAR"])
-    doc["MONTH"]=doc["MONTH"].astype("int")
-    doc["YEAR"]=doc["YEAR"].astype("int")
-    doc["MONTH"]=doc["MONTH"].astype("str")
-    doc["YEAR"]=doc["YEAR"].astype("str")
-    doc["MONTH"]=doc["MONTH"].str.strip()
-    doc["YEAR"]=doc["YEAR"].str.strip()
-    return doc
+def split_date1(df):
+    df = df.dropna(subset=['VIOLATION DATE'])
+    df['YEAR'] = pd.DatetimeIndex(df['VIOLATION DATE']).year
+    df['MONTH'] = pd.DatetimeIndex(df['VIOLATION DATE']).month
+    return df
+
+def split_date2(df):
+    df = df.dropna(subset=['CRASH_DATE'])
+    df['YEAR'] = pd.DatetimeIndex(df['CRASH_DATE']).year
+    df['MONTH'] = pd.DatetimeIndex(df['CRASH_DATE']).month
+    return df
 
 
 def chicago_map():
@@ -101,7 +103,7 @@ def year_pick():
 def vio_year():
     rl_vio1 = doc(1).dropna(subset=["MONTH"])
     rl_vio2 = doc(2).dropna(subset=["MONTH"])
-    year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020], value=2018)
+    year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020, 2021], value=2018)
     vio1 = rl_vio1[rl_vio1["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio = pd.DataFrame(vio1).merge(pd.DataFrame(vio2), left_index=True, right_index=True).rename(
@@ -120,15 +122,15 @@ def vio_year():
 
 def stack_bar_chart():
     rl_vio = doc(0)
-    rl_vio["YEAR"] = rl_vio["YEAR"].astype("int")
-    source = rl_vio[rl_vio["YEAR"] > 2015]
+    #rl_vio["YEAR"] = rl_vio["YEAR"].astype("int")
+    source = rl_vio
     crash_type = ["FAILING TO REDUCE SPEED TO AVOID CRASH",
                   "FAILING TO YIELD RIGHT-OF-WAY",
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     st.sidebar.title("What causes the accidents?")
     select1 = st.sidebar.selectbox("Choose the crash type: ", crash_type)
-    select2 = st.sidebar.multiselect("Choose the year: ", [2016,2017,2018,2019,2020,2021])
+    select2 = st.sidebar.multiselect("Choose the year: ", [2015, 2016,2017,2018,2019,2020,2021])
     if st.button("View All"):
         cha = alt.Chart(source).mark_bar(size=20).encode(
             alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q"]),
