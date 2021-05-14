@@ -100,13 +100,12 @@ def year_pick():
 def vio_year():
     rl_vio1 = doc(1).dropna(subset=["MONTH"])
     rl_vio2 = doc(2).dropna(subset=["MONTH"])
-    rl_vio1["DATE"] = pd.to_datetime(rl_vio1["YEAR"].astype("str").str.cat(rl_vio1["MONTH"].astype("str"), sep = ' '))
-    rl_vio2["DATE"] = pd.to_datetime(rl_vio2["YEAR"].astype("str").str.cat(rl_vio2["MONTH"].astype("str"), sep = ' '))
     year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020, 2021], value=2018)
     vio1 = rl_vio1[rl_vio1["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio = pd.DataFrame(vio1).merge(pd.DataFrame(vio2), left_index=True, right_index=True).rename(
         columns={"VIOLATIONS_x": "Red Light", "VIOLATIONS_y": "Speed"})
+    vio["DATE"] = pd.to_datetime(vio["YEAR"].astype("str").str.cat(vio["MONTH"].astype("str"), sep = ' '))
     fig = plt.figure(figsize=(7, 4))  # Create matplotlib figure
     ax = fig.add_subplot(111)  # Create matplotlib axes
     ax2 = ax.twinx()  # Create another axes that shares the same x-axis as ax.
@@ -117,8 +116,7 @@ def vio_year():
     ax.set_xlabel("Month")
     plt.grid(False)
     plt.xticks(rotation=45)
-    st.area_chart(rl_vio1[["DATE","VIOLATIONS"]])
-    st.area_chart(rl_vio2[["DATE","VIOLATIONS"]])            
+    st.area_chart(vio.set_index("DATE")[["Red Light", "Speed"]])          
     return fig
 
 def stack_bar_chart():
