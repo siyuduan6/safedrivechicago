@@ -12,35 +12,32 @@ from streamlit_folium import folium_static
 @st.cache(suppress_st_warning=True) 
 def doc(f):
     rl_vio = pd.read_csv(
-        "https://gist.githubusercontent.com/siyuduan6/67d4bcb2a15af7f462c58a18b252e332/raw/7e11d168762c30f1e0bbd08fda2ad0191fcc9c34/Traffic_Crashes.csv")
+        "https://gist.githubusercontent.com/siyuduan6/e1b61c24b984343365746e5eef1770a4/raw/4e958da893708556e518276bc63deb255954c68e/Crash.csv")
     rl_vio1 = pd.read_csv(
-        "https://gist.githubusercontent.com/siyuduan6/ddbe981643d8b38773ad453ce4e1b963/raw/6b7524c6949ddb0358b97c1906924eeebba32eac/Red_Light_Camera_Violations.csv")
+        "https://gist.githubusercontent.com/siyuduan6/d120e6170e8013068b7e36ac1ce9a6d9/raw/286b35bc519075b926d1170c7a1ecfce4e281df4/Red_Light.csv")
     rl_vio2 = pd.read_csv(
-        "https://gist.githubusercontent.com/siyuduan6/daee9d0b028b2bab368ee16f7489a1cf/raw/b5f0cf2647d23d2556107ad89e1b5f75be6c5e72/Speed_Camera_Violations.csv",
-        engine='python', error_bad_lines=False)
-    rl_vio = split_date2(rl_vio)
-    rl_vio1 = split_date1(rl_vio1)
-    rl_vio2 = split_date1(rl_vio2)
+        "https://gist.githubusercontent.com/siyuduan6/28d9ceb3e4789ef7456ce4c3183d6b62/raw/43c81cb16a34d14db3b760dab1ea02b64cf51962/Speed.csv")
+    crash = pd.read_csv("https://gist.githubusercontent.com/siyuduan6/67d4bcb2a15af7f462c58a18b252e332/raw/7e11d168762c30f1e0bbd08fda2ad0191fcc9c34/Traffic_Crashes.csv")
     rl_lo = pd.read_csv("https://data.cityofchicago.org/api/views/7mgr-iety/rows.csv?accessType=DOWNLOAD")
     s_loc = pd.read_csv("https://data.cityofchicago.org/api/views/4i42-qv3h/rows.csv?accessType=DOWNLOAD")
     s_loc["ADDRESS"] = s_loc["ADDRESS"].str.split("(", expand=True).iloc[:, 0]
     r_la = list(rl_lo["LATITUDE"])
     r_lo = list(rl_lo["LONGITUDE"])
     
-    file_list = [rl_vio, rl_vio1, rl_vio2, rl_lo, s_loc, r_la, r_lo]
+    file_list = [rl_vio, rl_vio1, rl_vio2, rl_lo, s_loc, r_la, r_lo, crash]
     return file_list[f]
 
-def split_date1(df):
-    df = df.dropna(subset=['VIOLATION DATE'])
-    df['YEAR'] = pd.DatetimeIndex(df['VIOLATION DATE']).year
-    df['MONTH'] = pd.DatetimeIndex(df['VIOLATION DATE']).month
-    return df
+#def split_date1(df):
+#    df = df.dropna(subset=['VIOLATION DATE'])
+#    df['YEAR'] = pd.DatetimeIndex(df['VIOLATION DATE']).year
+#    df['MONTH'] = pd.DatetimeIndex(df['VIOLATION DATE']).month
+#    return df
 
-def split_date2(df):
-    df = df.dropna(subset=['CRASH_DATE'])
-    df['YEAR'] = pd.DatetimeIndex(df['CRASH_DATE']).year
-    df['MONTH'] = pd.DatetimeIndex(df['CRASH_DATE']).month
-    return df
+#def split_date2(df):
+#    df = df.dropna(subset=['CRASH_DATE'])
+#    df['YEAR'] = pd.DatetimeIndex(df['CRASH_DATE']).year
+#    df['MONTH'] = pd.DatetimeIndex(df['CRASH_DATE']).month
+#    return df
 
 
 def chicago_map():
@@ -91,7 +88,7 @@ def point_adder(df, info):
 
 
 def year_pick():
-    crash = doc(0)
+    crash = doc(7)
     year_list = [2016, 2017, 2018, 2019, 2020, 2021]
     file = crash.dropna(subset=["LOCATION"])
     st.sidebar.title("Number of car crashes at each block?")
@@ -133,64 +130,63 @@ def stack_bar_chart():
     select2 = st.sidebar.multiselect("Choose the year: ", [2015, 2016,2017,2018,2019,2020,2021])
     if st.button("View All"):
         cha = alt.Chart(source).mark_bar(size=20).encode(
-            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID)"]),
+            alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS)"]),
             alt.Y('YEAR:O', title="Year",axis=alt.Axis(grid=False, labelAngle=0)),
-            alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
-            color="PRIM_CONTRIBUTORY_CAUSE",
+            alt.X('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0)),
+            color="CAUSE",
             order=alt.Order(
                 # Sort the segments of the bars by this field
-                'PRIM_CONTRIBUTORY_CAUSE',
+                'CAUSE',
                 sort='ascending'
             )).properties(
             height=400,
             width=850).transform_filter(
-            alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
+            alt.FieldOneOfPredicate(field='CAUSE', oneOf=crash_type)
         ).interactive()
     else:   
         if select1 in crash_type:
             cha = alt.Chart(source).mark_bar(size=20).encode(
-                alt.Tooltip(["PRIM_CONTRIBUTORY_CAUSE:N", "count(CRASH_RECORD_ID)"]),
+                alt.Tooltip(["CAUSE:N", "sum(RECORDS)"]),
                 alt.Y('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0), title="Year"),
-                alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1)),
+                alt.X('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1)),
                 color=alt.value("#e7ba52")
             ).properties(
                 height=400,
                 width=600
             ).transform_filter(
-                alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1
+                alt.datum.CAUSE == select1
             )
             if select2:
                 cha = alt.Chart(source).mark_bar(size=20).encode(
-                    alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID)"]),
+                    alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS)"]),
                     alt.Y('MONTH:O', axis=alt.Axis(grid=False, labelAngle=0), title="Month"),
-                    alt.X('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1)),
+                    alt.X('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1)),
                     color=alt.value("darkgray")
                 ).properties(
                     height=400,
                     width=600).transform_filter(
-                    alt.datum.PRIM_CONTRIBUTORY_CAUSE == select1).transform_filter(alt.FieldOneOfPredicate(field='YEAR', oneOf=select2))
+                    alt.datum.CAUSE == select1).transform_filter(alt.FieldOneOfPredicate(field='YEAR', oneOf=select2))
                 
     return cha
 
 
 def summary():
     rl_vio = doc(0)
-    rl_vio["YEAR"] = rl_vio["YEAR"].astype("int")
     source = rl_vio[rl_vio["YEAR"] > 2015]
     crash_type = ["FAILING TO REDUCE SPEED TO AVOID CRASH",
                   "FAILING TO YIELD RIGHT-OF-WAY",
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     cha = alt.Chart(source).mark_bar(size=20).encode(
-        alt.Tooltip(["YEAR:O","count(CRASH_RECORD_ID)","PRIM_CONTRIBUTORY_CAUSE","DAMAGE"]),
+        alt.Tooltip(["YEAR:O","sum(RECORDS)","CAUSE","DAMAGE"]),
         alt.X('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0), title="Year"),
-        alt.Y('count(CRASH_RECORD_ID)', axis=alt.Axis(grid=False, labelAngle=0)),
-        alt.Row("PRIM_CONTRIBUTORY_CAUSE",title="Cause of Accidents"),
+        alt.Y('sum(RECORDS))', axis=alt.Axis(grid=False, labelAngle=0)),
+        alt.Row("CAUSE",title="Cause of Accidents"),
         alt.Column("DAMAGE", title="Damage")
     ).properties(
         width=200
     ).transform_filter(
-        alt.FieldOneOfPredicate(field='PRIM_CONTRIBUTORY_CAUSE', oneOf=crash_type)
+        alt.FieldOneOfPredicate(field='CAUSE', oneOf=crash_type)
     ).interactive()
     sum = alt.vconcat(
         cha,
@@ -258,7 +254,7 @@ def int_vega():
     # Top panel is scatter plot of temperature vs time
     if st.button("Show Damage Level"):
         points = alt.Chart(source).mark_point().encode(
-            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTALL):Q"]),
+            alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURES):Q"]),
             alt.X('MONTH:O', title='Month',
                   axis=alt.Axis(
                       offset=10,
@@ -268,7 +264,7 @@ def int_vega():
                       grid=False
                   )
                   ),
-            alt.Y('count(CRASH_RECORD_ID):Q',
+            alt.Y('sum(RECORDS):Q',
                   scale=alt.Scale(domain=[0, 200]),
                   axis=alt.Axis(
                       offset=10,
@@ -288,7 +284,7 @@ def int_vega():
         )
 
         lines = alt.Chart(source2).mark_circle().encode(
-            alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTAL):Q"]),
+            alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURES):Q"]),
             alt.X('MONTH:O',title="Month",
                   axis=alt.Axis(
                       offset=10,
@@ -297,7 +293,7 @@ def int_vega():
                       minExtent=30,
                       grid=False
                   )),
-            alt.Y("sum(INJURIES_TOTAL):Q",
+            alt.Y("sum(INJURES):Q",
                   title="Injured Number",
                   axis=alt.Axis(
                       offset=10,
@@ -320,7 +316,7 @@ def int_vega():
         )
     else:
         points = alt.Chart(source).mark_point().encode(
-        alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTALL):Q"]),
+        alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURES):Q"]),
         alt.X('MONTH:O', title='Month',
               axis=alt.Axis(
                   offset=10,
@@ -330,7 +326,7 @@ def int_vega():
                   grid=False
               )
               ),
-        alt.Y('count(CRASH_RECORD_ID):Q',
+        alt.Y('sum(RECORDS):Q',
               scale=alt.Scale(domain=[0, 200]),
               axis=alt.Axis(
                   offset=10,
@@ -350,7 +346,7 @@ def int_vega():
     )
 
     lines = alt.Chart(source2).mark_circle().encode(
-        alt.Tooltip(["YEAR:O", "MONTH:O", "count(CRASH_RECORD_ID):Q", "sum(INJURIES_TOTAL):Q"]),
+        alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURES):Q"]),
         alt.X('MONTH:O',title="Month",
               axis=alt.Axis(
                   offset=10,
@@ -359,7 +355,7 @@ def int_vega():
                   minExtent=30,
                   grid=False
               )),
-        alt.Y("sum(INJURIES_TOTAL):Q",
+        alt.Y("sum(INJURES):Q",
               title="Injured Number",
               axis=alt.Axis(
                   offset=10,
