@@ -400,7 +400,7 @@ if __name__ == '__main__':
             "Drive Safely and Carefullly!\n")
     st.write("(The data are from [Chicago Data Portal](https://data.cityofchicago.org/))")
     st.header(" The Location of Traffic Cameras")
-    st.text("Move the map by your mouse and click the markers to \nview the locations of traffic cameras.")
+    st.text("Choose what traffic camera you want by the check box.\nMove the map by your mouse and click the markers to view the locations of traffic cameras.")
     rl = doc(3)
     s = doc(4)
     st.sidebar.title("Want to find the locations of traffic cameras?")
