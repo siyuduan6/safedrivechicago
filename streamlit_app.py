@@ -265,7 +265,7 @@ def int_vega():
                   )
                   ),
             alt.Y('sum(RECORDS):Q',
-                  scale=alt.Scale(domain=[0, 20000]),
+                  scale=alt.Scale(domain=[0, 2000]),
                   axis=alt.Axis(
                       offset=10,
                       ticks=True,
@@ -327,7 +327,7 @@ def int_vega():
               )
               ),
         alt.Y('sum(RECORDS):Q',
-              scale=alt.Scale(domain=[0, 2000]),
+              scale=alt.Scale(domain=[0, 12000]),
               axis=alt.Axis(
                   offset=10,
                   ticks=True,
