@@ -127,7 +127,7 @@ def stack_bar_chart():
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     st.sidebar.title("What causes the accidents?")
     select1 = st.sidebar.selectbox("Choose the crash type: ", crash_type)
-    select2 = st.sidebar.multiselect("Choose the year: ", [2015, 2016,2017,2018,2019,2020,2021])
+    select2 = st.sidebar.selectbox("Choose the year: ", [2015, 2016,2017,2018,2019,2020,2021])
     if st.button("View All"):
         cha = alt.Chart(source).mark_bar(size=20).encode(
             alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS)"]),
