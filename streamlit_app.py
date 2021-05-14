@@ -33,11 +33,11 @@ def doc(f):
 #    df['MONTH'] = pd.DatetimeIndex(df['VIOLATION DATE']).month
 #    return df
 
-#def split_date2(df):
-#    df = df.dropna(subset=['CRASH_DATE'])
-#    df['YEAR'] = pd.DatetimeIndex(df['CRASH_DATE']).year
-#    df['MONTH'] = pd.DatetimeIndex(df['CRASH_DATE']).month
-#    return df
+def split_date2(df):
+    df = df.dropna(subset=['CRASH_DATE'])
+    df['YEAR'] = pd.DatetimeIndex(df['CRASH_DATE']).year
+    df['MONTH'] = pd.DatetimeIndex(df['CRASH_DATE']).month
+    return df
 
 
 def chicago_map():
@@ -88,7 +88,7 @@ def point_adder(df, info):
 
 
 def year_pick():
-    crash = doc(7)
+    crash = split_date2(doc(7))
     year_list = [2016, 2017, 2018, 2019, 2020, 2021]
     file = crash.dropna(subset=["LOCATION"])
     st.sidebar.title("Number of car crashes at each block?")
