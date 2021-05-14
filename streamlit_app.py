@@ -165,7 +165,7 @@ def stack_bar_chart():
                 ).properties(
                     height=400,
                     width=600).transform_filter(
-                    alt.datum.CAUSE == select1).transform_filter(alt.FieldOneOfPredicate(field='YEAR', oneOf=select2))
+                    alt.datum.CAUSE == select1).transform_filter(alt.datum.YEAR == select2)
                 
     return cha
 
