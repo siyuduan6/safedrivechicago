@@ -180,7 +180,7 @@ def summary():
     cha = alt.Chart(source).mark_bar(size=20).encode(
         alt.Tooltip(["YEAR:O","sum(RECORDS)","CAUSE","DAMAGE"]),
         alt.X('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0), title="Year"),
-        alt.Y('sum(RECORDS))', axis=alt.Axis(grid=False, labelAngle=0)),
+        alt.Y('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0)),
         alt.Row("CAUSE",title="Cause of Accidents"),
         alt.Column("DAMAGE", title="Damage")
     ).properties(
