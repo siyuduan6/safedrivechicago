@@ -132,7 +132,7 @@ def stack_bar_chart():
         cha = alt.Chart(source).mark_bar(size=20).encode(
             alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS)"]),
             alt.Y('YEAR:O', title="Year",axis=alt.Axis(grid=False, labelAngle=0)),
-            alt.X('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0)),
+            alt.X('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0), title="Records"),
             color="CAUSE",
             order=alt.Order(
                 # Sort the segments of the bars by this field
@@ -148,7 +148,7 @@ def stack_bar_chart():
             cha = alt.Chart(source).mark_bar(size=20).encode(
                 alt.Tooltip(["CAUSE:N", "sum(RECORDS)"]),
                 alt.Y('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0), title="Year"),
-                alt.X('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1)),
+                alt.X('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1), title="Records"),
                 color=alt.value("#e7ba52")
             ).properties(
                 height=400,
@@ -160,7 +160,7 @@ def stack_bar_chart():
                 cha = alt.Chart(source).mark_bar(size=20).encode(
                     alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS)"]),
                     alt.Y('MONTH:O', axis=alt.Axis(grid=False, labelAngle=0), title="Month"),
-                    alt.X('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1)),
+                    alt.X('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0,tickMinStep = 1), title="Records"),
                     color=alt.value("darkgray")
                 ).properties(
                     height=400,
@@ -180,7 +180,7 @@ def summary():
     cha = alt.Chart(source).mark_bar(size=20).encode(
         alt.Tooltip(["YEAR:O","sum(RECORDS)","CAUSE","DAMAGE"]),
         alt.X('YEAR:O', axis=alt.Axis(grid=False, labelAngle=0), title="Year"),
-        alt.Y('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0)),
+        alt.Y('sum(RECORDS)', axis=alt.Axis(grid=False, labelAngle=0), title="Records"),
         alt.Row("CAUSE",title="Cause of Accidents"),
         alt.Column("DAMAGE", title="Damage")
     ).properties(
@@ -271,7 +271,7 @@ def int_vega():
                       ticks=True,
                       minExtent=30,
                       grid=False,
-                  )),
+                  ), title="Records"),
             color=alt.condition(brush, color, alt.value('darkgray')),
             size="DAMAGE:N"
         ).properties(
@@ -327,13 +327,13 @@ def int_vega():
               )
               ),
         alt.Y('sum(RECORDS):Q',
-              scale=alt.Scale(domain=[0, 20000]),
+              scale=alt.Scale(domain=[0, 12000]),
               axis=alt.Axis(
                   offset=10,
                   ticks=True,
                   minExtent=30,
                   grid=False,
-              )),
+              ), title="Records"),
         color=alt.condition(brush, color, alt.value('darkgray')),
         size=alt.value(80)
     ).properties(
