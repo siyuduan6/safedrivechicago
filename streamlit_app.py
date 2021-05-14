@@ -244,7 +244,7 @@ def int_vega():
     rl_vio = doc(0)
     rl_vio["YEAR"] = rl_vio["YEAR"].astype("int")
     source = rl_vio[rl_vio["YEAR"] > 2015]
-    source2 = source.dropna(subset=["INJURIES_TOTAL"])
+    source2 = source
     scale = alt.Scale(domain=[2016, 2017, 2018, 2019, 2020, 2021],
                       range=["#e7ba52", "#c7c7c7", "#aec7e8", "#659CCA", "#1f77b4", "#9467bd"])
     color = alt.Color('YEAR:O', scale=scale)
