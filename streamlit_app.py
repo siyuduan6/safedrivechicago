@@ -105,8 +105,11 @@ def vio_year():
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio = pd.DataFrame(vio1).merge(pd.DataFrame(vio2), left_index=True, right_index=True).rename(
         columns={"VIOLATIONS_x": "Red Light", "VIOLATIONS_y": "Speed"})
-    vio3 = vio
-    vio3["DATE"] = pd.to_datetime(vio["YEAR"].astype("str").str.cat(vio["MONTH"].astype("str"), sep = ' '))
+    rl_vio1["DATE"] = pd.to_datetime(rl_vio1["YEAR"].astype("str").str.cat(rl_vio1["MONTH"].astype("str"), sep = ' '))
+    rl_vio2["DATE"] = pd.to_datetime(rl_vio2["YEAR"].astype("str").str.cat(rl_vio2["MONTH"].astype("str"), sep = ' '))
+    vio3 =pd.DataFrame(rl_vio1).merge(pd.DataFrame(rl_vio2), on = "DATE").rename(
+        columns={"VIOLATIONS_x": "Red Light", "VIOLATIONS_y": "Speed"})
+
     fig = plt.figure(figsize=(7, 4))  # Create matplotlib figure
     ax = fig.add_subplot(111)  # Create matplotlib axes
     ax2 = ax.twinx()  # Create another axes that shares the same x-axis as ax.
