@@ -100,8 +100,8 @@ def year_pick():
 def vio_year():
     rl_vio1 = doc(1).dropna(subset=["MONTH"])
     rl_vio2 = doc(2).dropna(subset=["MONTH"])
-    rl_vio1["DATE"] = pd.to_datetime(rl_vio1["YEAR"].astype("str").str.cat(rl_vio1["MONTH"].astype("str"), sep = ' '),format=”%Y%m”)
-    rl_vio2["DATE"] = pd.to_datetime(rl_vio2["YEAR"].astype("str").str.cat(rl_vio2["MONTH"].astype("str"), sep = ' ')format=”%Y%m”)
+    rl_vio1["DATE"] = pd.to_datetime(rl_vio1["YEAR"].astype("str").str.cat(rl_vio1["MONTH"].astype("str"), sep = ' '),format="%m%Y”)
+    rl_vio2["DATE"] = pd.to_datetime(rl_vio2["YEAR"].astype("str").str.cat(rl_vio2["MONTH"].astype("str"), sep = ' ')format="%m%Y")
 
     vio3 =pd.DataFrame(rl_vio1).merge(pd.DataFrame(rl_vio2), on = "DATE").rename(
     columns={"VIOLATIONS_x": "Red Light", "VIOLATIONS_y": "Speed"})
