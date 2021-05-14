@@ -384,7 +384,7 @@ if __name__ == '__main__':
     st.text("When you are on the road, drive safe is the priority." 
             "\nHowever, traffic law violations and traffic accidents are happening all the time."
             "\nHere, you can get the locations of traffic cameras and the basic statistic of "
-            "red light \nviolations, speed violations and car crash cases in Chicago from 2015 to March 2021."
+            "red light \nviolations, speed violations and car crash cases in Chicago from 2015 to April 2021."
             "\nNot only for displaying numbers, but also for alarming you to beware of the danger" 
             "\nand letting you be aware of the importance to obey traffic rules.\n"
             "Drive Safely and Carefullly!\n")
