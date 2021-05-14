@@ -105,7 +105,8 @@ def vio_year():
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio = pd.DataFrame(vio1).merge(pd.DataFrame(vio2), left_index=True, right_index=True).rename(
         columns={"VIOLATIONS_x": "Red Light", "VIOLATIONS_y": "Speed"})
-    vio["DATE"] = pd.to_datetime(vio["YEAR"].astype("str").str.cat(vio["MONTH"].astype("str"), sep = ' '))
+    vio3 = vio
+    vio3["DATE"] = pd.to_datetime(vio["YEAR"].astype("str").str.cat(vio["MONTH"].astype("str"), sep = ' '))
     fig = plt.figure(figsize=(7, 4))  # Create matplotlib figure
     ax = fig.add_subplot(111)  # Create matplotlib axes
     ax2 = ax.twinx()  # Create another axes that shares the same x-axis as ax.
@@ -116,7 +117,7 @@ def vio_year():
     ax.set_xlabel("Month")
     plt.grid(False)
     plt.xticks(rotation=45)
-    st.area_chart(vio.set_index("DATE")[["Red Light", "Speed"]])          
+    st.area_chart(vio3.set_index("DATE")[["Red Light", "Speed"]])          
     return fig
 
 def stack_bar_chart():
