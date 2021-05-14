@@ -416,7 +416,7 @@ if __name__ == '__main__':
         chi_m = chicago_map()
     folium_static(chi_m)
     st.header(" Car Crash Accidents in Chicago ")
-    st.text("How many car crashes happened on each block? Select years by drop-down!\nNote: some records of car crashes would not be counted due to no address information")
+    st.text("How many car crashes happened on each block? Select years by drop-down!\nNote: some records of car crashes would not be counted due to no address information.")
     year_pick()
     st.header("*Summary*")
     st.text("Damages and causes of car accidents by year.")
