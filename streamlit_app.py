@@ -374,7 +374,7 @@ def int_vega():
     vega = alt.vconcat(
         points,
         lines,
-        title="Cases VS Injured"
+        title="Cases VS Injuries"
     )
     return vega
 
@@ -418,7 +418,7 @@ if __name__ == '__main__':
     st.text("Select a type of causes and gain the summary!")
     st.write(stack_bar_chart())
     st.header("Crashes and Injuries in the same period")
-    st.text("Try to brush on the \"Cases\" chart and click on the \"Injured\" chart to find some trends!")
+    st.text("Try to brush on the \"Cases\" chart and click on the \"Injuries\" chart to find some trends!")
     st.write(int_vega())
     st.header("Violation Cases in Chicago Per Month")
     st.text("Slide the slider to view the number of violations in Chicago.")
