@@ -120,14 +120,14 @@ def vio_year():
 def stack_bar_chart():
     rl_vio = doc(0)
     #rl_vio["YEAR"] = rl_vio["YEAR"].astype("int")
-    source = rl_vio
+    source = rl_vio[rl_vio["YEAR"]>2014]
     crash_type = ["FAILING TO REDUCE SPEED TO AVOID CRASH",
                   "FAILING TO YIELD RIGHT-OF-WAY",
                   "FOLLOWING TOO CLOSELY",
                   "IMPROPER LANE USAGE", "IMPROPER OVERTAKING/PASSING"]
     st.sidebar.title("What causes the accidents?")
     select1 = st.sidebar.selectbox("Choose the crash type: ", crash_type)
-    select2 = st.sidebar.selectbox("Choose the year: ", [2015, 2016,2017,2018,2019,2020,2021])
+    select2 = st.sidebar.selectbox("Choose the year: ", [2015,2016,2017,2018,2019,2020,2021])
     if st.button("View All"):
         cha = alt.Chart(source).mark_bar(size=20).encode(
             alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS)"]),
