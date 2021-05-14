@@ -138,6 +138,7 @@ def stack_bar_chart():
     st.sidebar.title("What causes the accidents?")
     select1 = st.sidebar.selectbox("Choose the crash type: ", crash_type)
     select2 = st.sidebar.selectbox("Choose the year: ", [2015,2016,2017,2018,2019,2020,2021])
+    st.text("Go back to see all types of causes? Click 'View All'!")
     if st.button("View All"):
         cha = alt.Chart(source).mark_bar(size=20).encode(
             alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS)"]),
@@ -261,7 +262,7 @@ def int_vega():
     click = alt.selection_multi(encodings=['color'])
     brush = alt.selection_interval()
 
-    # Top panel is scatter plot of temperature vs time
+    st.text("How about damage level? Click 'Show Damage Level'!")
     if st.button("Show Damage Level"):
         points = alt.Chart(source).mark_point().encode(
             alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURIES):Q"]),
