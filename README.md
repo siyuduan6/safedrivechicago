@@ -1,12 +1,12 @@
 # IS 545 Finals - Drive Safe in Chicago
 
-Drive Safe in Chicago has been deployed on streamlit! You can view the website [here]("https://share.streamlit.io/siyuduan6/safedrivechicago").
+Drive Safe in Chicago has been deployed on streamlit! You can view the website [here](https://share.streamlit.io/siyuduan6/safedrivechicago).
 
 Datasets are from [Chicago Data Portal website](https://data.cityofchicago.org/browse?category=Transportation&page=1).
 
 The license is the terms of use on the source [website](https://www.chicago.gov/city/en/narr/foia/data_disclaimer.html).
 
-There are different types of visualization and interactive charts n the website:
+There are different types of visualization and interactive charts on the website:
 
 1) Chicago Maps to show the locations of traffic cameras (Red light & Speed);
 2) Chicago Maps with the number of recoded crash cases in one or more years selected by drop-down on the sidebar;
