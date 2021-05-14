@@ -105,7 +105,8 @@ def vio_year():
 
     vio3 =pd.DataFrame(rl_vio1).merge(pd.DataFrame(rl_vio2), on = "DATE").rename(
     columns={"VIOLATIONS_x": "Red Light", "VIOLATIONS_y": "Speed"})
-    st.area_chart(vio3.set_index("DATE")[["Red Light", "Speed"]], width =850)   
+    st.area_chart(vio3.set_index("DATE")[["Red Light", "Speed"]], width =850) 
+    st.text("Slide the slider to view the number of violations in Chicago.")
     year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020, 2021], value=2018)
     vio1 = rl_vio1[rl_vio1["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
@@ -430,7 +431,6 @@ if __name__ == '__main__':
     st.text("Try to brush on the \"Cases\" chart and click on the \"Injuries\" chart to find some trends!")
     st.write(int_vega())
     st.header("Violation Cases in Chicago Per Month")
-    st.text("Slide the slider to view the number of violations in Chicago.")
     vio = vio_year()
     st.write(vio)
 
