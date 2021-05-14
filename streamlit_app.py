@@ -109,7 +109,7 @@ def vio_year():
     ax = fig.add_subplot(111)  # Create matplotlib axes
     ax2 = ax.twinx()  # Create another axes that shares the same x-axis as ax.
     width = 0.8
-    vio.plot(kind='bar', ax=ax, width=width, rot=0, color=["#e7ba52", "#659CCA"])
+    vio.plot(kind='bar', ax=ax, width=width, rot=0, color=["#e7ba52", "#1f77b4"])
     ax.set_ylabel('Red Light Violation Cases')
     ax2.set_ylabel('Speed Violation Cases')
     ax.set_xlabel("Month")
