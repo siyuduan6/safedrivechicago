@@ -294,7 +294,7 @@ def int_vega():
                       grid=False
                   )),
             alt.Y("sum(INJURES):Q",
-                  title="Injured Number",
+                  title="Injuries",
                   axis=alt.Axis(
                       offset=10,
                       ticks=True,
@@ -356,7 +356,7 @@ def int_vega():
                   grid=False
               )),
         alt.Y("sum(INJURES):Q",
-              title="Injured Number",
+              title="Injuries",
               axis=alt.Axis(
                   offset=10,
                   ticks=True,
@@ -410,15 +410,15 @@ if __name__ == '__main__':
     st.text("How many car crashes happened each year in Chicago? Select years by drop-down!")
     year_pick()
     st.header("*Summary*")
-    st.text("Damages and Causes of car accidents by year.")
+    st.text("Damages and causes of car accidents by year.")
     st.write(summary())
     st.text("Choose an interval on the year bar and get the data!")
     st.write(summary_rl())
     st.header("Top 5 Causes of Car Crash Accident")
     st.text("Select a type of causes and gain the summary!")
     st.write(stack_bar_chart())
-    st.header("Crashes and Injures in the same period")
-    st.text("Try to brush on the \"Cases\" chart and click on the \"Injured\" chart to find some relationships between the two!")
+    st.header("Crashes and Injuries in the same period")
+    st.text("Try to brush on the \"Cases\" chart and click on the \"Injured\" chart to find some trends!")
     st.write(int_vega())
     st.header("Violation Cases in Chicago Per Month")
     st.text("Slide the slider to view the number of violations in Chicago.")
