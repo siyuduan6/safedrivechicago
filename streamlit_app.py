@@ -254,7 +254,7 @@ def int_vega():
     # Top panel is scatter plot of temperature vs time
     if st.button("Show Damage Level"):
         points = alt.Chart(source).mark_point().encode(
-            alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURES):Q"]),
+            alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURIES):Q"]),
             alt.X('MONTH:O', title='Month',
                   axis=alt.Axis(
                       offset=10,
@@ -284,7 +284,7 @@ def int_vega():
         )
 
         lines = alt.Chart(source2).mark_circle().encode(
-            alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURES):Q"]),
+            alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURIES):Q"]),
             alt.X('MONTH:O',title="Month",
                   axis=alt.Axis(
                       offset=10,
@@ -316,7 +316,7 @@ def int_vega():
         )
     else:
         points = alt.Chart(source).mark_point().encode(
-        alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURES):Q"]),
+        alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURIES):Q"]),
         alt.X('MONTH:O', title='Month',
               axis=alt.Axis(
                   offset=10,
@@ -346,7 +346,7 @@ def int_vega():
     )
 
     lines = alt.Chart(source2).mark_circle().encode(
-        alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURES):Q"]),
+        alt.Tooltip(["YEAR:O", "MONTH:O", "sum(RECORDS):Q", "sum(INJURIES):Q"]),
         alt.X('MONTH:O',title="Month",
               axis=alt.Axis(
                   offset=10,
