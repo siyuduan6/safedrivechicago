@@ -12,7 +12,7 @@ from streamlit_folium import folium_static
 @st.cache(suppress_st_warning=True) 
 def doc(f):
     rl_vio = pd.read_csv(
-        "https://gist.githubusercontent.com/siyuduan6/e1b61c24b984343365746e5eef1770a4/raw/4e958da893708556e518276bc63deb255954c68e/Crash.csv")
+        "https://gist.githubusercontent.com/siyuduan6/068654ee0ee0e4ed401155df7063d3b3/raw/d945fed2395cb4d6dab7b5eec97d932129c3d49a/Crash.csv")
     rl_vio1 = pd.read_csv(
         "https://gist.githubusercontent.com/siyuduan6/d120e6170e8013068b7e36ac1ce9a6d9/raw/286b35bc519075b926d1170c7a1ecfce4e281df4/Red_Light.csv")
     rl_vio2 = pd.read_csv(
@@ -293,7 +293,7 @@ def int_vega():
                       minExtent=30,
                       grid=False
                   )),
-            alt.Y("sum(INJURES):Q",
+            alt.Y("sum(INJURIES):Q",
                   title="Injuries",
                   axis=alt.Axis(
                       offset=10,
@@ -327,7 +327,7 @@ def int_vega():
               )
               ),
         alt.Y('sum(RECORDS):Q',
-              scale=alt.Scale(domain=[0, 12000]),
+              scale=alt.Scale(domain=[0, 2000]),
               axis=alt.Axis(
                   offset=10,
                   ticks=True,
@@ -355,7 +355,7 @@ def int_vega():
                   minExtent=30,
                   grid=False
               )),
-        alt.Y("sum(INJURES):Q",
+        alt.Y("sum(INJURIES):Q",
               title="Injuries",
               axis=alt.Axis(
                   offset=10,
