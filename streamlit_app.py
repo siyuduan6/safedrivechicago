@@ -100,8 +100,8 @@ def year_pick():
 def vio_year():
     rl_vio1 = doc(1).dropna(subset=["MONTH"])
     rl_vio2 = doc(2).dropna(subset=["MONTH"])
-    rl_vio1["DATE"]] = pd.to_datetime(rl_vio1["YEAR"].str.cat(rl_vio1["MONTH"], sep = ' '))
-    rl_vio2["DATE"]] = pd.to_datetime(rl_vio2["YEAR"].str.cat(rl_vio2["MONTH"], sep = ' '))
+    rl_vio1["DATE"] = pd.to_datetime(rl_vio1["YEAR"].str.cat(rl_vio1["MONTH"], sep = ' '))
+    rl_vio2["DATE"] = pd.to_datetime(rl_vio2["YEAR"].str.cat(rl_vio2["MONTH"], sep = ' '))
     year = st.select_slider("Year", options=[2015, 2016, 2017, 2018, 2019, 2020, 2021], value=2018)
     vio1 = rl_vio1[rl_vio1["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
     vio2 = rl_vio2[rl_vio2["YEAR"] == year].groupby("MONTH")["VIOLATIONS"].sum()
